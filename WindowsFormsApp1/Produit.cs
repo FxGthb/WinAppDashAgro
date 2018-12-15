@@ -13,21 +13,24 @@ namespace WindowsFormsApp1
     {
         
         #region variables
-        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CS"].ConnectionString);
-        SqlCommand comm;
-        SqlDataReader sqlDtReader;
-        SqlParameter imageId;
-        SqlDataAdapter sqlDtAdapter;
-        DataSet dtSet;
-        BindingSource bindingSource;
-        int ImageID = 0;
+       
+        int idPro = 0;
+        private List<Object> list = new List<object>();
+        private List<String> listparam = new List<String>();
         int pdfID = 0;
         String strFilePath = "";
         String pdfstrFilePath = "";
         Image DefaultImage;
         Byte[] ImageByteArray;
         Byte[] pdfByteArray;
-        byte[] fileData;
+        byte[] pdf_pro;
+        Byte[] image_pro;
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CS"].ConnectionString); 
+                
+        DataSet dtSet = new DataSet();
+        private Database database;
+
+        BindingSource bindingSource = new BindingSource();
 
         List<string> ListNature = new List<string>();
         List<int> List_ID_Nature = new List<int>();
@@ -37,18 +40,22 @@ namespace WindowsFormsApp1
         public Produit()
         {
             InitializeComponent();
-            dtSet = new DataSet();
-            bindingSource = new BindingSource();
+            database = new Database();
         }
 
         private void buttonAjouterProduit_Click(object sender, EventArgs e)
         {
             try
             {
-                #region add product image to image table
+                Int32 id_cate = (int)listCategories.SelectedValue;
+                String libl = libelleProduit.Text.ToString();
+                String embal = emballageProduit.Text.ToString();
+                String ph = phProduit.Text.ToString();
+                String desc = descriptionProduit.Text.ToString();
+                String carac = carateristiqueProduit.Text.ToString();
+
                 if (txtTitle.Text.Trim() != "")
                 {
-
                     if (strFilePath == "")
                     {
                         if (ImageByteArray.Length != 0)
@@ -57,59 +64,17 @@ namespace WindowsFormsApp1
                     else
                     {
                         Image temp = new Bitmap(strFilePath);
-
                         MemoryStream strm = new MemoryStream();
-
-                        temp
-                            .Save(strm, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                        ImageByteArray = strm
-                                            .ToArray();
-
-
+                        temp.Save(strm, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        ImageByteArray = strm.ToArray();
                     }
-                    if (conn.State == ConnectionState.Closed)
-                        conn
-                            .Open();
-
-                    SqlCommand sqlCmd = new
-                                            SqlCommand("ImageAddOrEdit", conn)
-                    { CommandType = CommandType.StoredProcedure };
-
-
-
-                    sqlCmd
-                        .Parameters
-                            .AddWithValue("@ImageID", ImageID);
-
-                    sqlCmd
-                        .Parameters
-                            .AddWithValue("@Title", txtTitle.Text.Trim());
-
-                    sqlCmd
-                        .Parameters
-                            .AddWithValue("@Image", ImageByteArray);
-
-                    sqlCmd
-                        .ExecuteNonQuery();
-
-                    conn
-                        .Close();
-
-                    MessageBox
-                        .Show("Image saved successfuly");
+                    image_pro = ImageByteArray;
                 }
                 else
-                {
-                    MessageBox
-                        .Show("Please enter image title");
-                }
-                #endregion
+                    MessageBox.Show("Please enter image title");
 
-                #region add product documentation : PDF file to pdfFils table
                 if (txtPDFTitle.Text.Trim() != "")
                 {
-
                     if (pdfstrFilePath == "")
                     {
                         if (pdfByteArray.Length != 0)
@@ -117,244 +82,66 @@ namespace WindowsFormsApp1
                     }
                     else
                     {
-                        fileData = File.ReadAllBytes(pdfstrFilePath);
+                        pdf_pro = File.ReadAllBytes(pdfstrFilePath);
                     }
-                    if (conn.State == ConnectionState.Closed)
-                        conn
-                            .Open();
-
-                    SqlCommand sqlCmd = new
-                                            SqlCommand("pdfAddOrEdit", conn)
-                    { CommandType = CommandType.StoredProcedure };
-
-                    sqlCmd
-                        .Parameters
-                            .AddWithValue("@pdfID", pdfID);
-
-                    sqlCmd
-                        .Parameters
-                            .AddWithValue("@Title", txtPDFTitle.Text.Trim());
-
-                    sqlCmd
-                        .Parameters
-                            .AddWithValue("@pdfFile", fileData);
-
-                    sqlCmd
-                        .ExecuteNonQuery();
-
-                    conn
-                        .Close();
-
-                    MessageBox
-                        .Show("Pdf file saved successfuly");
                 }
                 else
-                {
-                    MessageBox
-                        .Show("Please enter pdf title");
-                }
-                #endregion
+                    MessageBox.Show("Please enter pdf title");
 
-                #region retrieve imageId
-                SqlCommand sqlcomm = conn.CreateCommand();
-
-                sqlcomm.CommandText = "  SELECT TOP 1 ImageID FROM Image ORDER BY ImageID DESC";
-
-                conn.Open();
-                sqlDtReader = sqlcomm.ExecuteReader();
-                sqlDtReader.Read();
-                int imageId = sqlDtReader.GetInt32(0);
-                MessageBox.Show(imageId.ToString());
-                conn.Close();
-                #endregion
-                sqlcomm = conn.CreateCommand();
-
-                sqlcomm.CommandText = "  SELECT TOP 1 pdfID FROM pdf_files ORDER BY pdfID DESC";
-
-                conn.Open();
-                sqlDtReader = sqlcomm.ExecuteReader();
-                sqlDtReader.Read();
-                int pdfId = sqlDtReader.GetInt32(0);
-                MessageBox.Show(imageId.ToString());
-                conn.Close();
-                #region retrieve pdfFileID
-
-                #endregion
-
-                #region add new product proccess
-                SqlCommand comm = new
-                                      SqlCommand("AddProduct", conn)
-                { CommandType = CommandType.StoredProcedure };
-
-                MessageBox.Show(imageId.ToString());
-
-                comm
-                       .Parameters
-                       .AddWithValue("@ID_Categorie", listCategories.SelectedValue);
-                comm
-                    .Parameters
-                    .AddWithValue("@Libelle", libelleProduit.Text);
-                comm
-                    .Parameters
-                    .AddWithValue("@Emballage", emballageProduit.Text);
-                comm
-                    .Parameters
-                    .AddWithValue("@PH", phProduit.Text);
-
-                //comm
-                //    .Parameters
-                //    .AddWithValue("@@Fiche_Techniques", null);
-
-                comm
-                    .Parameters
-                    .AddWithValue("@Description_Produit", descriptionProduit.Text);
-                comm
-                    .Parameters
-                    .AddWithValue("@Caracteristiques", carateristiqueProduit.Text);
-
-                comm
-                    .Parameters
-                    .AddWithValue("@id_image_produit", imageId);
-
-                comm
-                    .Parameters
-                    .AddWithValue("@id_pdf_produit", pdfId);
-
-                //comm
-                //    .Parameters
-                //    .AddWithValue("@image_id", 1);
-
-                conn.Open();
-
-                comm
-                    .ExecuteNonQuery();
-
-                MessageBox
-                   .Show("Produit ajouter avec succes !");
-
-                conn
-                    .Close();
-                #endregion
-
-                #region add natures to product
-                sqlcomm = conn.CreateCommand();
-
-                sqlcomm.CommandText = "select IDENT_CURRENT('Produit')";
-                if (conn.State == ConnectionState.Closed)
-                    conn.Open();
-                sqlcomm.ExecuteNonQuery();
-                sqlDtAdapter = new SqlDataAdapter(sqlcomm);
-                DataTable DT = new DataTable();
-                sqlDtAdapter.Fill(DT);
-                int produitId = int.Parse(DT.Rows[0][0].ToString());
+                Byte[] pdfFle = pdf_pro;
+                list.Add(id_cate);
+                list.Add(libl);
+                list.Add(embal);
+                list.Add(ph);
+                list.Add(desc);
+                list.Add(carac);
+                list.Add(image_pro);
+                list.Add(pdf_pro);
+                listparam.Add("@id_cate");
+                listparam.Add("@libl");
+                listparam.Add("@embal");
+                listparam.Add("@ph");
+                listparam.Add("@desc");
+                listparam.Add("@carac");
+                listparam.Add("@image_pro");
+                listparam.Add("@pdf_pro");
+                database.openconnection();
+                database.insert("Add", list, listparam);
                 
-                MessageBox.Show(produitId.ToString());
-
-                foreach(var item in ListNature)
-                {
-                    sqlcomm.CommandText = "select ID_Nature from Nature where Description_Nature  ='"+item.ToString()+"'";
-                    if (conn.State == ConnectionState.Closed)
-                        conn.Open();
-                    sqlcomm.ExecuteNonQuery();
-                    sqlDtAdapter = new SqlDataAdapter(sqlcomm);
-                    DT = new DataTable();
-                    sqlDtAdapter.Fill(DT);
-                    if(DT.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < DT.Rows.Count; i++)
-                        {
-                            List_ID_Nature.Add((int)DT.Rows[i][0]);
-                        }
-                    }
-                }
-                foreach(var id in List_ID_Nature)
-                {
-                    sqlcomm.CommandText = $"Insert into NatureProduit Values({id},{produitId})";
-                    if (conn.State == ConnectionState.Closed)
-                        conn.Open();
-                    sqlcomm.ExecuteNonQuery();
-                    MessageBox.Show("Inserted in nature Produit");
-                }
-                
-
-                #endregion
-
             }
-            catch (Exception exception)
+            catch (SqlException exception)
             {
-                MessageBox
-                    .Show( exception.ToString() );
+                MessageBox.Show("On a pas pu ajouter le produit.Erreur details :\n"+exception.ToString(),"Echec d'insertion",MessageBoxButtons.OKCancel,MessageBoxIcon.Error);
             }
             finally
             {
-                conn
-                    .Close();
-            }            
+                database.closeconnecion();
+            }
+            #region add new product proccess
+           
         }
-
+        #endregion
         #region formLOAD
         private void Produit_Load(object sender, EventArgs e)
         {
             //Main Main = new Main();
             //this.MdiParent=Main;
-            comboBox_Statut.SelectedIndex = 0;
-
+            comboBox_Statut.SelectedIndex = 0;            
             try
             {
-                String query
-                        = "SELECT ID_Categorie , Nom_Categorie FROM Categorie";
-
-                sqlDtAdapter = new SqlDataAdapter(query , conn);
-
-                sqlDtAdapter
-                    .Fill(dtSet, "Categorie");
-
-                bindingSource
-                    .DataSource =
-                            dtSet
-                                .Tables["Categorie"];
-
-                listCategories
-                    .DisplayMember = "Nom_Categorie";
-
-                listCategories
-                    .ValueMember = "ID_Categorie";
-
-                listCategories
-                    .SelectedValue = "ID_Categorie";
-
-                listCategories
-                    .DataSource =
-                            dtSet
-                                .Tables["Categorie"];
-
-                query =
-                        "SELECT ID_Nature, Description_Nature FROM Nature";
-
-                sqlDtAdapter = new SqlDataAdapter(query, conn);
-
-                sqlDtAdapter
-                    .Fill(dtSet, "Nature");
-
-                bindingSource
-                    .DataSource =
-                               dtSet
-                                    .Tables["Nature"];
-
-               
-                for (int i = 0; i < dtSet.Tables["Nature"].Rows.Count; i++)
-                {
-                    chelistbox_nature.Items.Add(dtSet.Tables["Nature"].Rows[i][1]);
-                }
+                listCategories.DisplayMember = "Nom_Categorie";
+                listCategories.ValueMember = "ID_Categorie";
+                listCategories.SelectedValue = "ID_Categorie";
+                database.openconnection();
+                listCategories.DataSource = database.select("selectCat", "Categorie").Tables["Categorie"];               
             }
-            catch (Exception exception)
+            catch (SqlException exception)
             {
-
                 MessageBox.Show(exception.ToString());
             }
             finally
             {
-                //conn.Close();
+                database.closeconnecion();
             }
         }
         #endregion
@@ -392,29 +179,29 @@ namespace WindowsFormsApp1
 
         private void chelistbox_nature_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (e.CurrentValue == CheckState.Unchecked && e.NewValue == CheckState.Checked)
-                ListNature.Add(chelistbox_nature.Items[e.Index].ToString());
-            else
-            {
-                if (e.Index != 0)
-                    ListNature.RemoveAt(e.Index);
-                else
-                    ListNature.Clear();
-            }
+            //if (e.CurrentValue == CheckState.Unchecked && e.NewValue == CheckState.Checked)
+            //    ListNature.Add(chelistbox_nature.Items[e.Index].ToString());
+            //else
+            //{
+            //    if (e.Index != 0)
+            //        ListNature.RemoveAt(e.Index);
+            //    else
+            //        ListNature.Clear();
+            //}
                 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (ListNature.Count > 0)
-            {
-                foreach (var item in ListNature)
-                {
-                    MessageBox.Show(item);
-                }
-            }
-            else
-                MessageBox.Show("Aucun element n'a ete selectionne");
+            //if (ListNature.Count > 0)
+            //{
+            //    foreach (var item in ListNature)
+            //    {
+            //        MessageBox.Show(item);
+            //    }
+            //}
+            //else
+            //    MessageBox.Show("Aucun element n'a ete selectionne");
         }
 
         

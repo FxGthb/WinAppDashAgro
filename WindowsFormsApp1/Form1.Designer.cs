@@ -29,42 +29,41 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.drvProduits = new System.Windows.Forms.DataGridView();
             this.txbLibelle = new System.Windows.Forms.TextBox();
             this.searchBtn = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.Libelle = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cmbCategorie = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.agroPartnersDataSet = new WindowsFormsApp1.AgroPartnersDataSet();
             this.natureBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.natureTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.NatureTableAdapter();
+            this.agroPartnersDataSet = new WindowsFormsApp1.AgroPartnersDataSet();
+            this.listCategories = new System.Windows.Forms.ComboBox();
             this.categorieBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.Libelle = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.natureTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.NatureTableAdapter();
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.drvProduits)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.natureBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // drvProduits
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 208);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(1026, 370);
-            this.dataGridView1.TabIndex = 0;
+            this.drvProduits.AllowUserToAddRows = false;
+            this.drvProduits.AllowUserToDeleteRows = false;
+            this.drvProduits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.drvProduits.Location = new System.Drawing.Point(12, 208);
+            this.drvProduits.Name = "drvProduits";
+            this.drvProduits.ReadOnly = true;
+            this.drvProduits.Size = new System.Drawing.Size(1026, 370);
+            this.drvProduits.TabIndex = 0;
+            this.drvProduits.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.drvProduits_CellClick);
             // 
             // txbLibelle
             // 
@@ -75,63 +74,52 @@
             // 
             // searchBtn
             // 
-            this.searchBtn.Location = new System.Drawing.Point(230, 137);
+            this.searchBtn.Location = new System.Drawing.Point(230, 91);
             this.searchBtn.Name = "searchBtn";
             this.searchBtn.Size = new System.Drawing.Size(184, 23);
             this.searchBtn.TabIndex = 2;
             this.searchBtn.Text = "Rechercher";
             this.searchBtn.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(545, 6);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Update";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(464, 5);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Delete";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(383, 6);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "New";
-            this.button4.UseVisualStyleBackColor = true;
+            this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Controls.Add(this.cmbCategorie);
+            this.panel1.Controls.Add(this.listCategories);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.Libelle);
             this.panel1.Controls.Add(this.searchBtn);
             this.panel1.Controls.Add(this.txbLibelle);
             this.panel1.Location = new System.Drawing.Point(301, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(445, 189);
+            this.panel1.Size = new System.Drawing.Size(445, 133);
             this.panel1.TabIndex = 6;
             // 
-            // Libelle
+            // natureBindingSource
             // 
-            this.Libelle.AutoSize = true;
-            this.Libelle.Location = new System.Drawing.Point(22, 17);
-            this.Libelle.Name = "Libelle";
-            this.Libelle.Size = new System.Drawing.Size(37, 13);
-            this.Libelle.TabIndex = 3;
-            this.Libelle.Text = "Libelle";
+            this.natureBindingSource.DataMember = "Nature";
+            this.natureBindingSource.DataSource = this.agroPartnersDataSet;
+            // 
+            // agroPartnersDataSet
+            // 
+            this.agroPartnersDataSet.DataSetName = "AgroPartnersDataSet";
+            this.agroPartnersDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // listCategories
+            // 
+            this.listCategories.DataSource = this.categorieBindingSource;
+            this.listCategories.DisplayMember = "Nom_Categorie";
+            this.listCategories.FormattingEnabled = true;
+            this.listCategories.Location = new System.Drawing.Point(82, 53);
+            this.listCategories.Name = "listCategories";
+            this.listCategories.Size = new System.Drawing.Size(331, 21);
+            this.listCategories.TabIndex = 6;
+            this.listCategories.ValueMember = "ID_Categorie";
+            // 
+            // categorieBindingSource
+            // 
+            this.categorieBindingSource.DataMember = "Categorie";
+            this.categorieBindingSource.DataSource = this.agroPartnersDataSet;
             // 
             // label1
             // 
@@ -142,69 +130,60 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Catégorie";
             // 
-            // cmbCategorie
+            // Libelle
             // 
-            this.cmbCategorie.DataSource = this.categorieBindingSource;
-            this.cmbCategorie.DisplayMember = "Nom_Categorie";
-            this.cmbCategorie.FormattingEnabled = true;
-            this.cmbCategorie.Location = new System.Drawing.Point(82, 53);
-            this.cmbCategorie.Name = "cmbCategorie";
-            this.cmbCategorie.Size = new System.Drawing.Size(331, 21);
-            this.cmbCategorie.TabIndex = 6;
-            this.cmbCategorie.ValueMember = "ID_Categorie";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DataSource = this.natureBindingSource;
-            this.comboBox1.DisplayMember = "Description_Nature";
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(82, 95);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(330, 21);
-            this.comboBox1.TabIndex = 7;
-            this.comboBox1.ValueMember = "ID_Nature";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 98);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Nature";
+            this.Libelle.AutoSize = true;
+            this.Libelle.Location = new System.Drawing.Point(22, 17);
+            this.Libelle.Name = "Libelle";
+            this.Libelle.Size = new System.Drawing.Size(37, 13);
+            this.Libelle.TabIndex = 3;
+            this.Libelle.Text = "Libelle";
             // 
             // panel2
             // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.button4);
-            this.panel2.Location = new System.Drawing.Point(277, 584);
+            this.panel2.Location = new System.Drawing.Point(509, 584);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(631, 35);
+            this.panel2.Size = new System.Drawing.Size(399, 56);
             this.panel2.TabIndex = 7;
-            // 
-            // agroPartnersDataSet
-            // 
-            this.agroPartnersDataSet.DataSetName = "AgroPartnersDataSet";
-            this.agroPartnersDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // natureBindingSource
-            // 
-            this.natureBindingSource.DataMember = "Nature";
-            this.natureBindingSource.DataSource = this.agroPartnersDataSet;
             // 
             // natureTableAdapter
             // 
             this.natureTableAdapter.ClearBeforeFill = true;
             // 
-            // categorieBindingSource
-            // 
-            this.categorieBindingSource.DataMember = "Categorie";
-            this.categorieBindingSource.DataSource = this.agroPartnersDataSet;
-            // 
             // categorieTableAdapter
             // 
             this.categorieTableAdapter.ClearBeforeFill = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(162, 16);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "Delete";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(243, 17);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Update";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(81, 17);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 8;
+            this.button4.Text = "New";
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -213,41 +192,39 @@
             this.ClientSize = new System.Drawing.Size(1050, 670);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.drvProduits);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drvProduits)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.natureBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView drvProduits;
         private System.Windows.Forms.TextBox txbLibelle;
         private System.Windows.Forms.Button searchBtn;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label Libelle;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox cmbCategorie;
+        private System.Windows.Forms.ComboBox listCategories;
         private System.Windows.Forms.Panel panel2;
         private AgroPartnersDataSet agroPartnersDataSet;
         private System.Windows.Forms.BindingSource natureBindingSource;
         private AgroPartnersDataSetTableAdapters.NatureTableAdapter natureTableAdapter;
         private System.Windows.Forms.BindingSource categorieBindingSource;
         private AgroPartnersDataSetTableAdapters.CategorieTableAdapter categorieTableAdapter;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button4;
     }
 }
 
