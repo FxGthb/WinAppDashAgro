@@ -76,6 +76,7 @@ namespace WindowsFormsApp1
         {
             var i = 0;
             command = new SqlCommand(procName, this.connecion) { CommandType = CommandType.StoredProcedure };
+            command.Parameters.Clear();
             foreach (var val in list)
             {
                 command.Parameters.AddWithValue(listparam[i++], val); 

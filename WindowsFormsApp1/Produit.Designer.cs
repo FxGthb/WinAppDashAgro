@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.comboBox_Statut = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.phProduit = new System.Windows.Forms.TextBox();
@@ -47,21 +48,20 @@
             this.carateristiqueProduit = new System.Windows.Forms.TextBox();
             this.descriptionProduit = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.buttonAjouterProduit = new System.Windows.Forms.Button();
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.pbxImage = new System.Windows.Forms.PictureBox();
-            this.btnBrowse = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtTitle = new System.Windows.Forms.TextBox();
             this.btnBrowsePdf = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.txtPDFTitle = new System.Windows.Forms.TextBox();
+            this.pbxImage = new System.Windows.Forms.PictureBox();
+            this.btnBrowse = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtImgTitle = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.chelistbox_nature = new System.Windows.Forms.CheckedListBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.comboBox_Statut = new System.Windows.Forms.ComboBox();
+            this.chelistbox_nature = new System.Windows.Forms.CheckedListBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).BeginInit();
@@ -97,6 +97,20 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(302, 239);
             this.panel1.TabIndex = 2;
+            // 
+            // comboBox_Statut
+            // 
+            this.comboBox_Statut.FormattingEnabled = true;
+            this.comboBox_Statut.ItemHeight = 13;
+            this.comboBox_Statut.Items.AddRange(new object[] {
+            "Active",
+            "En veille"});
+            this.comboBox_Statut.Location = new System.Drawing.Point(121, 201);
+            this.comboBox_Statut.MaxDropDownItems = 6;
+            this.comboBox_Statut.Name = "comboBox_Statut";
+            this.comboBox_Statut.Size = new System.Drawing.Size(121, 21);
+            this.comboBox_Statut.Sorted = true;
+            this.comboBox_Statut.TabIndex = 13;
             // 
             // label8
             // 
@@ -228,6 +242,16 @@
             this.panel3.Size = new System.Drawing.Size(434, 56);
             this.panel3.TabIndex = 4;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(182, 18);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // buttonAjouterProduit
             // 
             this.buttonAjouterProduit.Location = new System.Drawing.Point(345, 18);
@@ -250,11 +274,37 @@
             this.panel4.Controls.Add(this.pbxImage);
             this.panel4.Controls.Add(this.btnBrowse);
             this.panel4.Controls.Add(this.label7);
-            this.panel4.Controls.Add(this.txtTitle);
+            this.panel4.Controls.Add(this.txtImgTitle);
             this.panel4.Location = new System.Drawing.Point(20, 260);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(301, 137);
             this.panel4.TabIndex = 5;
+            // 
+            // btnBrowsePdf
+            // 
+            this.btnBrowsePdf.Location = new System.Drawing.Point(164, 102);
+            this.btnBrowsePdf.Name = "btnBrowsePdf";
+            this.btnBrowsePdf.Size = new System.Drawing.Size(57, 21);
+            this.btnBrowsePdf.TabIndex = 6;
+            this.btnBrowsePdf.Text = "Parcourir";
+            this.btnBrowsePdf.UseVisualStyleBackColor = true;
+            this.btnBrowsePdf.Click += new System.EventHandler(this.btnBrowsePdf_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(21, 79);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(82, 13);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "Documentattion";
+            // 
+            // txtPDFTitle
+            // 
+            this.txtPDFTitle.Location = new System.Drawing.Point(121, 76);
+            this.txtPDFTitle.Name = "txtPDFTitle";
+            this.txtPDFTitle.Size = new System.Drawing.Size(100, 20);
+            this.txtPDFTitle.TabIndex = 4;
             // 
             // pbxImage
             // 
@@ -284,38 +334,12 @@
             this.label7.TabIndex = 1;
             this.label7.Text = "Image produit";
             // 
-            // txtTitle
+            // txtImgTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(121, 13);
-            this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(100, 20);
-            this.txtTitle.TabIndex = 0;
-            // 
-            // btnBrowsePdf
-            // 
-            this.btnBrowsePdf.Location = new System.Drawing.Point(164, 102);
-            this.btnBrowsePdf.Name = "btnBrowsePdf";
-            this.btnBrowsePdf.Size = new System.Drawing.Size(57, 21);
-            this.btnBrowsePdf.TabIndex = 6;
-            this.btnBrowsePdf.Text = "Parcourir";
-            this.btnBrowsePdf.UseVisualStyleBackColor = true;
-            this.btnBrowsePdf.Click += new System.EventHandler(this.btnBrowsePdf_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(21, 79);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(82, 13);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "Documentattion";
-            // 
-            // txtPDFTitle
-            // 
-            this.txtPDFTitle.Location = new System.Drawing.Point(121, 76);
-            this.txtPDFTitle.Name = "txtPDFTitle";
-            this.txtPDFTitle.Size = new System.Drawing.Size(100, 20);
-            this.txtPDFTitle.TabIndex = 4;
+            this.txtImgTitle.Location = new System.Drawing.Point(121, 13);
+            this.txtImgTitle.Name = "txtImgTitle";
+            this.txtImgTitle.Size = new System.Drawing.Size(100, 20);
+            this.txtImgTitle.TabIndex = 0;
             // 
             // panel5
             // 
@@ -326,16 +350,6 @@
             this.panel5.Size = new System.Drawing.Size(297, 106);
             this.panel5.TabIndex = 6;
             // 
-            // chelistbox_nature
-            // 
-            this.chelistbox_nature.CheckOnClick = true;
-            this.chelistbox_nature.FormattingEnabled = true;
-            this.chelistbox_nature.Location = new System.Drawing.Point(11, 28);
-            this.chelistbox_nature.Name = "chelistbox_nature";
-            this.chelistbox_nature.Size = new System.Drawing.Size(277, 64);
-            this.chelistbox_nature.TabIndex = 0;
-            this.chelistbox_nature.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chelistbox_nature_ItemCheck);
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -345,29 +359,15 @@
             this.label10.TabIndex = 1;
             this.label10.Text = "Natures produit";
             // 
-            // button1
+            // chelistbox_nature
             // 
-            this.button1.Location = new System.Drawing.Point(182, 18);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // comboBox_Statut
-            // 
-            this.comboBox_Statut.FormattingEnabled = true;
-            this.comboBox_Statut.ItemHeight = 13;
-            this.comboBox_Statut.Items.AddRange(new object[] {
-            "Active",
-            "En veille"});
-            this.comboBox_Statut.Location = new System.Drawing.Point(121, 201);
-            this.comboBox_Statut.MaxDropDownItems = 6;
-            this.comboBox_Statut.Name = "comboBox_Statut";
-            this.comboBox_Statut.Size = new System.Drawing.Size(121, 21);
-            this.comboBox_Statut.Sorted = true;
-            this.comboBox_Statut.TabIndex = 13;
+            this.chelistbox_nature.CheckOnClick = true;
+            this.chelistbox_nature.FormattingEnabled = true;
+            this.chelistbox_nature.Location = new System.Drawing.Point(11, 28);
+            this.chelistbox_nature.Name = "chelistbox_nature";
+            this.chelistbox_nature.Size = new System.Drawing.Size(277, 64);
+            this.chelistbox_nature.TabIndex = 0;
+            this.chelistbox_nature.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chelistbox_nature_ItemCheck);
             // 
             // Produit
             // 
@@ -422,7 +422,7 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtTitle;
+        private System.Windows.Forms.TextBox txtImgTitle;
         private System.Windows.Forms.PictureBox pbxImage;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnBrowsePdf;

@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp1
@@ -48,13 +49,15 @@ namespace WindowsFormsApp1
             try
             {
                 Int32 id_cate = (int)listCategories.SelectedValue;
-                String libl = libelleProduit.Text.ToString();
-                String embal = emballageProduit.Text.ToString();
-                String ph = phProduit.Text.ToString();
-                String desc = descriptionProduit.Text.ToString();
-                String carac = carateristiqueProduit.Text.ToString();
+                String libl = libelleProduit.Text.Trim();
+                String embal = emballageProduit.Text.Trim();
+                String ph = phProduit.Text.Trim();
+                String desc = descriptionProduit.Text.Trim();
+                String carac = carateristiqueProduit.Text.Trim();
+                String title_image = txtImgTitle.Text.Trim();
+                String title_pdf = txtPDFTitle.Text.Trim();
 
-                if (txtTitle.Text.Trim() != "")
+                if (txtImgTitle.Text.Trim() != "")
                 {
                     if (strFilePath == "")
                     {
@@ -96,7 +99,10 @@ namespace WindowsFormsApp1
                 list.Add(desc);
                 list.Add(carac);
                 list.Add(image_pro);
+                list.Add(title_image);
                 list.Add(pdf_pro);
+                list.Add(title_pdf);
+
                 listparam.Add("@id_cate");
                 listparam.Add("@libl");
                 listparam.Add("@embal");
@@ -104,7 +110,9 @@ namespace WindowsFormsApp1
                 listparam.Add("@desc");
                 listparam.Add("@carac");
                 listparam.Add("@image_pro");
+                listparam.Add("@title_image");
                 listparam.Add("@pdf_pro");
+                listparam.Add("@title_pdf");
                 database.openconnection();
                 database.insert("Add", list, listparam);
                 
@@ -116,6 +124,20 @@ namespace WindowsFormsApp1
             finally
             {
                 database.closeconnecion();
+                list.Clear();
+                listparam.Clear();
+                void ClearTextBoxes(Control parent)
+                {
+                    foreach (Control child in parent.Controls)
+                    {
+                        TextBox textBox = child as TextBox;
+                        if (textBox == null)
+                            ClearTextBoxes(child);
+                        else
+                            textBox.Text = string.Empty;
+                    } 
+                } 
+                ClearTextBoxes(this);
             }
             #region add new product proccess
            
@@ -133,7 +155,8 @@ namespace WindowsFormsApp1
                 listCategories.ValueMember = "ID_Categorie";
                 listCategories.SelectedValue = "ID_Categorie";
                 database.openconnection();
-                listCategories.DataSource = database.select("selectCat", "Categorie").Tables["Categorie"];               
+                listCategories.DataSource = database.select("selectCat", "Categorie").Tables["Categorie"];
+                listCategories.SelectedIndex = -1;
             }
             catch (SqlException exception)
             {
@@ -155,8 +178,8 @@ namespace WindowsFormsApp1
             {
                 strFilePath = ofd.FileName;
                 pbxImage.Image = new Bitmap(strFilePath);
-                if (txtTitle.Text.Trim().Length == 0)//Auto-Fill title if is empty
-                    txtTitle.Text = System.IO.Path.GetFileName(strFilePath);
+                if (txtImgTitle.Text.Trim().Length == 0)//Auto-Fill title if is empty
+                    txtImgTitle.Text = System.IO.Path.GetFileName(strFilePath);
             }
         }
         #endregion

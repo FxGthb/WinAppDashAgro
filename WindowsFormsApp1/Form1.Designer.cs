@@ -33,23 +33,24 @@
             this.txbLibelle = new System.Windows.Forms.TextBox();
             this.searchBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.natureBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.agroPartnersDataSet = new WindowsFormsApp1.AgroPartnersDataSet();
             this.listCategories = new System.Windows.Forms.ComboBox();
             this.categorieBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.agroPartnersDataSet = new WindowsFormsApp1.AgroPartnersDataSet();
             this.label1 = new System.Windows.Forms.Label();
             this.Libelle = new System.Windows.Forms.Label();
+            this.natureBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
-            this.natureTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.NatureTableAdapter();
-            this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.natureTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.NatureTableAdapter();
+            this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.drvProduits)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.natureBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.natureBindingSource)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,16 +96,6 @@
             this.panel1.Size = new System.Drawing.Size(445, 133);
             this.panel1.TabIndex = 6;
             // 
-            // natureBindingSource
-            // 
-            this.natureBindingSource.DataMember = "Nature";
-            this.natureBindingSource.DataSource = this.agroPartnersDataSet;
-            // 
-            // agroPartnersDataSet
-            // 
-            this.agroPartnersDataSet.DataSetName = "AgroPartnersDataSet";
-            this.agroPartnersDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
             // listCategories
             // 
             this.listCategories.DataSource = this.categorieBindingSource;
@@ -120,6 +111,11 @@
             // 
             this.categorieBindingSource.DataMember = "Categorie";
             this.categorieBindingSource.DataSource = this.agroPartnersDataSet;
+            // 
+            // agroPartnersDataSet
+            // 
+            this.agroPartnersDataSet.DataSetName = "AgroPartnersDataSet";
+            this.agroPartnersDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // label1
             // 
@@ -139,6 +135,11 @@
             this.Libelle.TabIndex = 3;
             this.Libelle.Text = "Libelle";
             // 
+            // natureBindingSource
+            // 
+            this.natureBindingSource.DataMember = "Nature";
+            this.natureBindingSource.DataSource = this.agroPartnersDataSet;
+            // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -149,14 +150,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(399, 56);
             this.panel2.TabIndex = 7;
-            // 
-            // natureTableAdapter
-            // 
-            this.natureTableAdapter.ClearBeforeFill = true;
-            // 
-            // categorieTableAdapter
-            // 
-            this.categorieTableAdapter.ClearBeforeFill = true;
             // 
             // button3
             // 
@@ -185,11 +178,30 @@
             this.button4.Text = "New";
             this.button4.UseVisualStyleBackColor = true;
             // 
+            // natureTableAdapter
+            // 
+            this.natureTableAdapter.ClearBeforeFill = true;
+            // 
+            // categorieTableAdapter
+            // 
+            this.categorieTableAdapter.ClearBeforeFill = true;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(135, 113);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(55, 13);
+            this.linkLabel1.TabIndex = 8;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "linkLabel1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1050, 670);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.drvProduits);
@@ -199,11 +211,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.drvProduits)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.natureBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.natureBindingSource)).EndInit();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -225,6 +238,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 
