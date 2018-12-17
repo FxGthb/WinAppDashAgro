@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+using System.IO;
+using Spire.Pdf;
 
 namespace WindowsFormsApp1
 {
@@ -39,13 +42,13 @@ namespace WindowsFormsApp1
                     drvProduits[7, r.Index] = lc;       
 
                 }
-                foreach (DataGridViewRow r in drvProduits.Rows)
-                {
-                    DataGridViewLinkCell lc = new DataGridViewLinkCell();
-                    lc.Value = r.Cells[9].Value;
-                    drvProduits[9, r.Index] = lc;
+                //foreach (DataGridViewRow r in drvProduits.Rows)
+                //{
+                //    //DataGridViewLinkCell lc = new DataGridViewLinkCell();
+                //    //lc.Value = r.Cells[9].Value;
+                //    //drvProduits[9, r.Index] = lc;
 
-                }
+                //}
 
             }
             catch (SqlException exception)
@@ -85,6 +88,32 @@ namespace WindowsFormsApp1
         {
 
         }
-        
+
+        private void button_PDF_Click(object sender, EventArgs e)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["CS"].ConnectionString);
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = "Select fiche_techniques from Produit where Produit.Libelle ='"+ txbLibelle.Text+"'";
+            if (con.State == ConnectionState.Closed)
+                con.Open();
+            SqlDataAdapter DA = new SqlDataAdapter(cmd);
+            DataTable DT = new DataTable();
+            DA.Fill(DT);
+            MessageBox.Show(DT.Rows[0][0].ToString());
+
+            byte[] binaryData = (byte[])DT.Rows[0][0];
+            //File.WriteAllBytes("Test.txt", binaryData);
+
+            using (StreamWriter sw = new StreamWriter("testpdf.pdf"))
+            {
+                BinaryWriter bw = new BinaryWriter(sw.BaseStream);
+                bw.Write(binaryData);
+            }
+            //axAcroPDF1.src = "testpdf.pdf";
+            
+            //PdfDocument doc = new PdfDocument();
+            //doc.LoadFromBytes(binaryData);
+            //doc.SaveToFile("File.pdf");
+        }
     }
 }

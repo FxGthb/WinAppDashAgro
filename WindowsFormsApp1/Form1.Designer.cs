@@ -46,6 +46,7 @@
             this.natureTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.NatureTableAdapter();
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.button_PDF = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drvProduits)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).BeginInit();
@@ -59,7 +60,7 @@
             this.drvProduits.AllowUserToAddRows = false;
             this.drvProduits.AllowUserToDeleteRows = false;
             this.drvProduits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.drvProduits.Location = new System.Drawing.Point(12, 208);
+            this.drvProduits.Location = new System.Drawing.Point(12, 163);
             this.drvProduits.Name = "drvProduits";
             this.drvProduits.ReadOnly = true;
             this.drvProduits.Size = new System.Drawing.Size(1026, 370);
@@ -143,17 +144,18 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.button_PDF);
             this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.button4);
-            this.panel2.Location = new System.Drawing.Point(509, 584);
+            this.panel2.Location = new System.Drawing.Point(639, 539);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(399, 56);
             this.panel2.TabIndex = 7;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(162, 16);
+            this.button3.Location = new System.Drawing.Point(200, 17);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 7;
@@ -162,7 +164,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(243, 17);
+            this.button2.Location = new System.Drawing.Point(298, 17);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 6;
@@ -171,7 +173,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(81, 17);
+            this.button4.Location = new System.Drawing.Point(110, 17);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 8;
@@ -196,11 +198,21 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "linkLabel1";
             // 
+            // button_PDF
+            // 
+            this.button_PDF.Location = new System.Drawing.Point(22, 17);
+            this.button_PDF.Name = "button_PDF";
+            this.button_PDF.Size = new System.Drawing.Size(75, 23);
+            this.button_PDF.TabIndex = 9;
+            this.button_PDF.Text = "PDF";
+            this.button_PDF.UseVisualStyleBackColor = true;
+            this.button_PDF.Click += new System.EventHandler(this.button_PDF_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1050, 670);
+            this.ClientSize = new System.Drawing.Size(1050, 603);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -239,6 +251,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Button button_PDF;
     }
 }
 

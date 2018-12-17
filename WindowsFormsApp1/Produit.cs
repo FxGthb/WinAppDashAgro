@@ -78,15 +78,22 @@ namespace WindowsFormsApp1
 
                 if (txtPDFTitle.Text.Trim() != "")
                 {
-                    if (pdfstrFilePath == "")
-                    {
-                        if (pdfByteArray.Length != 0)
-                            pdfByteArray = new byte[] { };
-                    }
-                    else
-                    {
-                        pdf_pro = File.ReadAllBytes(pdfstrFilePath);
-                    }
+                    //if (pdfstrFilePath == "")
+                    //{
+                    //    if (pdfByteArray.Length != 0)
+                    //        pdfByteArray = new byte[] { };
+                    //}
+                    //else
+                    //{
+                        using (var stream = new FileStream(pdfstrFilePath, FileMode.Open, FileAccess.Read))
+                        {
+                            using (var reader = new BinaryReader(stream))
+                            {
+                                pdf_pro = reader.ReadBytes((int)stream.Length);
+                            }
+                        }
+                        //pdf_pro = File.ReadAllBytes(pdfstrFilePath);
+                    //}
                 }
                 else
                     MessageBox.Show("Please enter pdf title");
@@ -115,7 +122,7 @@ namespace WindowsFormsApp1
                 listparam.Add("@title_pdf");
                 database.openconnection();
                 database.insert("Add", list, listparam);
-                
+                MessageBox.Show("Added !!");
             }
             catch (SqlException exception)
             {
