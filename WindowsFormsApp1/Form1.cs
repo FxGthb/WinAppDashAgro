@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.IO;
-using Spire.Pdf;
+//using Spire.Pdf;
 
 namespace WindowsFormsApp1
 {
@@ -114,6 +114,11 @@ namespace WindowsFormsApp1
             //PdfDocument doc = new PdfDocument();
             //doc.LoadFromBytes(binaryData);
             //doc.SaveToFile("File.pdf");
+        }
+
+        private void drvProduits_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

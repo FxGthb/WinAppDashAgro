@@ -59,9 +59,6 @@
             this.btnBrowse = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.txtImgTitle = new System.Windows.Forms.TextBox();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.chelistbox_nature = new System.Windows.Forms.CheckedListBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).BeginInit();
@@ -69,7 +66,6 @@
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
-            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -341,40 +337,11 @@
             this.txtImgTitle.Size = new System.Drawing.Size(100, 20);
             this.txtImgTitle.TabIndex = 0;
             // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.label10);
-            this.panel5.Controls.Add(this.chelistbox_nature);
-            this.panel5.Location = new System.Drawing.Point(23, 405);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(297, 106);
-            this.panel5.TabIndex = 6;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(11, 13);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(79, 13);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "Natures produit";
-            // 
-            // chelistbox_nature
-            // 
-            this.chelistbox_nature.CheckOnClick = true;
-            this.chelistbox_nature.FormattingEnabled = true;
-            this.chelistbox_nature.Location = new System.Drawing.Point(11, 28);
-            this.chelistbox_nature.Name = "chelistbox_nature";
-            this.chelistbox_nature.Size = new System.Drawing.Size(277, 64);
-            this.chelistbox_nature.TabIndex = 0;
-            this.chelistbox_nature.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chelistbox_nature_ItemCheck);
-            // 
             // Produit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(807, 527);
-            this.Controls.Add(this.panel5);
+            this.ClientSize = new System.Drawing.Size(1223, 719);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -392,8 +359,6 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).EndInit();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -428,9 +393,6 @@
         private System.Windows.Forms.Button btnBrowsePdf;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtPDFTitle;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.CheckedListBox chelistbox_nature;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox comboBox_Statut;
     }

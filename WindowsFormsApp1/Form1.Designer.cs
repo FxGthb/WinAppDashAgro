@@ -40,13 +40,13 @@
             this.Libelle = new System.Windows.Forms.Label();
             this.natureBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button_PDF = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.natureTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.NatureTableAdapter();
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.button_PDF = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drvProduits)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).BeginInit();
@@ -66,6 +66,7 @@
             this.drvProduits.Size = new System.Drawing.Size(1026, 370);
             this.drvProduits.TabIndex = 0;
             this.drvProduits.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.drvProduits_CellClick);
+            this.drvProduits.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.drvProduits_CellContentClick_1);
             // 
             // txbLibelle
             // 
@@ -153,6 +154,16 @@
             this.panel2.Size = new System.Drawing.Size(399, 56);
             this.panel2.TabIndex = 7;
             // 
+            // button_PDF
+            // 
+            this.button_PDF.Location = new System.Drawing.Point(22, 17);
+            this.button_PDF.Name = "button_PDF";
+            this.button_PDF.Size = new System.Drawing.Size(75, 23);
+            this.button_PDF.TabIndex = 9;
+            this.button_PDF.Text = "PDF";
+            this.button_PDF.UseVisualStyleBackColor = true;
+            this.button_PDF.Click += new System.EventHandler(this.button_PDF_Click);
+            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(200, 17);
@@ -197,16 +208,6 @@
             this.linkLabel1.TabIndex = 8;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "linkLabel1";
-            // 
-            // button_PDF
-            // 
-            this.button_PDF.Location = new System.Drawing.Point(22, 17);
-            this.button_PDF.Name = "button_PDF";
-            this.button_PDF.Size = new System.Drawing.Size(75, 23);
-            this.button_PDF.TabIndex = 9;
-            this.button_PDF.Text = "PDF";
-            this.button_PDF.UseVisualStyleBackColor = true;
-            this.button_PDF.Click += new System.EventHandler(this.button_PDF_Click);
             // 
             // Form1
             // 
