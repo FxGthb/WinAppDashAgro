@@ -48,7 +48,7 @@
             this.carateristiqueProduit = new System.Windows.Forms.TextBox();
             this.descriptionProduit = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_List_Prod = new System.Windows.Forms.Button();
             this.buttonAjouterProduit = new System.Windows.Forms.Button();
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -231,22 +231,22 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.button1);
+            this.panel3.Controls.Add(this.button_List_Prod);
             this.panel3.Controls.Add(this.buttonAjouterProduit);
             this.panel3.Location = new System.Drawing.Point(346, 456);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(434, 56);
             this.panel3.TabIndex = 4;
             // 
-            // button1
+            // button_List_Prod
             // 
-            this.button1.Location = new System.Drawing.Point(182, 18);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_List_Prod.Location = new System.Drawing.Point(264, 18);
+            this.button_List_Prod.Name = "button_List_Prod";
+            this.button_List_Prod.Size = new System.Drawing.Size(75, 23);
+            this.button_List_Prod.TabIndex = 1;
+            this.button_List_Prod.Text = "List";
+            this.button_List_Prod.UseVisualStyleBackColor = true;
+            this.button_List_Prod.Click += new System.EventHandler(this.button1_Click);
             // 
             // buttonAjouterProduit
             // 
@@ -273,12 +273,12 @@
             this.panel4.Controls.Add(this.txtImgTitle);
             this.panel4.Location = new System.Drawing.Point(20, 260);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(301, 137);
+            this.panel4.Size = new System.Drawing.Size(301, 252);
             this.panel4.TabIndex = 5;
             // 
             // btnBrowsePdf
             // 
-            this.btnBrowsePdf.Location = new System.Drawing.Point(164, 102);
+            this.btnBrowsePdf.Location = new System.Drawing.Point(227, 196);
             this.btnBrowsePdf.Name = "btnBrowsePdf";
             this.btnBrowsePdf.Size = new System.Drawing.Size(57, 21);
             this.btnBrowsePdf.TabIndex = 6;
@@ -289,7 +289,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(21, 79);
+            this.label9.Location = new System.Drawing.Point(21, 199);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(82, 13);
             this.label9.TabIndex = 5;
@@ -297,23 +297,23 @@
             // 
             // txtPDFTitle
             // 
-            this.txtPDFTitle.Location = new System.Drawing.Point(121, 76);
+            this.txtPDFTitle.Location = new System.Drawing.Point(121, 196);
             this.txtPDFTitle.Name = "txtPDFTitle";
             this.txtPDFTitle.Size = new System.Drawing.Size(100, 20);
             this.txtPDFTitle.TabIndex = 4;
             // 
             // pbxImage
             // 
-            this.pbxImage.Location = new System.Drawing.Point(229, 14);
+            this.pbxImage.Location = new System.Drawing.Point(24, 42);
             this.pbxImage.Name = "pbxImage";
-            this.pbxImage.Size = new System.Drawing.Size(62, 45);
+            this.pbxImage.Size = new System.Drawing.Size(260, 130);
             this.pbxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbxImage.TabIndex = 3;
             this.pbxImage.TabStop = false;
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(164, 39);
+            this.btnBrowse.Location = new System.Drawing.Point(227, 13);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(57, 21);
             this.btnBrowse.TabIndex = 2;
@@ -341,7 +341,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1223, 719);
+            this.ClientSize = new System.Drawing.Size(807, 527);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -393,7 +393,7 @@
         private System.Windows.Forms.Button btnBrowsePdf;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtPDFTitle;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_List_Prod;
         private System.Windows.Forms.ComboBox comboBox_Statut;
     }
 }

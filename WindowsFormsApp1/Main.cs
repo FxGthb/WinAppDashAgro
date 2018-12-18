@@ -12,7 +12,7 @@ namespace WindowsFormsApp1
 {
     public partial class Main : Form
     {
-        Produit Form_Prdt = new Produit();
+        
         
         public Main()
         {
@@ -21,7 +21,7 @@ namespace WindowsFormsApp1
 
         private void nouveauToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form_Prdt.Show();
+            
         }
     }
 }
