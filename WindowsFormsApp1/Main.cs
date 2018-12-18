@@ -21,7 +21,20 @@ namespace WindowsFormsApp1
 
         private void nouveauToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            Produit produit = new Produit();
+            produit.Show();
+        }
+
+        private void listeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Show();
+        }
+
+        private void listeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.Show();
         }
     }
 }

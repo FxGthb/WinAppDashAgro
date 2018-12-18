@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace WindowsFormsApp1
 {
@@ -20,7 +21,8 @@ namespace WindowsFormsApp1
         Image DefaultImage;
         Byte[] ImageByteArray;
         //before executing -create database with given script - change connection string according to yours
-        SqlConnection sqlcon = new SqlConnection(@"Data Source=.;Initial Catalog=AgroPartners;Integrated Security=True");
+        SqlConnection sqlcon = new SqlConnection(ConfigurationManager.ConnectionStrings["CS"].ConnectionString);
+        DataTable dtblImages = new DataTable();
         #endregion
 
         public Form2()
@@ -37,7 +39,7 @@ namespace WindowsFormsApp1
                 sqlcon.Open();
             SqlDataAdapter sqlda = new SqlDataAdapter("selectCat", sqlcon);
             sqlda.SelectCommand.CommandType = CommandType.StoredProcedure;
-            DataTable dtblImages = new DataTable();
+            
             sqlda.Fill(dtblImages);
             dgvImages.DataSource = dtblImages;
            // dgvImages.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -107,6 +109,8 @@ namespace WindowsFormsApp1
                 sqlCmd.ExecuteNonQuery();
                 sqlcon.Close();
                 MessageBox.Show("Saved successfuly");
+                dgvImages.DataSource = null;
+                
                 Clear();
                 RefreshImageGrid();
             }
@@ -119,6 +123,9 @@ namespace WindowsFormsApp1
 
         private void dgvImages_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            textBoxLibelle.Text = dgvImages.CurrentRow.Cells[1].Value.ToString();
+            textBoxDescription.Text = dgvImages.CurrentRow.Cells[2].Value.ToString();
+
             txtTitle.Text = dgvImages.CurrentRow.Cells[1].Value.ToString();
             byte[] ImageArray = (byte[])dgvImages.CurrentRow.Cells[3].Value;
             if (ImageArray.Length == 0)
@@ -131,6 +138,7 @@ namespace WindowsFormsApp1
             ImageID = Convert.ToInt32(dgvImages.CurrentRow.Cells[0].Value);
             btnSave.Text = "Update";
             buttonDelete.Enabled = true;
+
         }
     }
 }

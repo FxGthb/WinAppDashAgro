@@ -66,7 +66,7 @@
             this.drvProduits.Size = new System.Drawing.Size(1026, 370);
             this.drvProduits.TabIndex = 0;
             this.drvProduits.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.drvProduits_CellClick);
-            this.drvProduits.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.drvProduits_CellContentClick_1);
+            //this.drvProduits.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.drvProduits_CellContentClick_1);
             // 
             // txbLibelle
             // 
