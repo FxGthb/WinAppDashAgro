@@ -48,7 +48,7 @@
             this.carateristiqueProduit = new System.Windows.Forms.TextBox();
             this.descriptionProduit = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_List_Prod = new System.Windows.Forms.Button();
             this.buttonAjouterProduit = new System.Windows.Forms.Button();
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -59,9 +59,6 @@
             this.btnBrowse = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.txtImgTitle = new System.Windows.Forms.TextBox();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.chelistbox_nature = new System.Windows.Forms.CheckedListBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).BeginInit();
@@ -69,7 +66,6 @@
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
-            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -235,22 +231,22 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.button1);
+            this.panel3.Controls.Add(this.button_List_Prod);
             this.panel3.Controls.Add(this.buttonAjouterProduit);
             this.panel3.Location = new System.Drawing.Point(346, 456);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(434, 56);
             this.panel3.TabIndex = 4;
             // 
-            // button1
+            // button_List_Prod
             // 
-            this.button1.Location = new System.Drawing.Point(182, 18);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_List_Prod.Location = new System.Drawing.Point(264, 18);
+            this.button_List_Prod.Name = "button_List_Prod";
+            this.button_List_Prod.Size = new System.Drawing.Size(75, 23);
+            this.button_List_Prod.TabIndex = 1;
+            this.button_List_Prod.Text = "List";
+            this.button_List_Prod.UseVisualStyleBackColor = true;
+            this.button_List_Prod.Click += new System.EventHandler(this.button1_Click);
             // 
             // buttonAjouterProduit
             // 
@@ -277,12 +273,12 @@
             this.panel4.Controls.Add(this.txtImgTitle);
             this.panel4.Location = new System.Drawing.Point(20, 260);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(301, 137);
+            this.panel4.Size = new System.Drawing.Size(301, 252);
             this.panel4.TabIndex = 5;
             // 
             // btnBrowsePdf
             // 
-            this.btnBrowsePdf.Location = new System.Drawing.Point(164, 102);
+            this.btnBrowsePdf.Location = new System.Drawing.Point(227, 196);
             this.btnBrowsePdf.Name = "btnBrowsePdf";
             this.btnBrowsePdf.Size = new System.Drawing.Size(57, 21);
             this.btnBrowsePdf.TabIndex = 6;
@@ -293,7 +289,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(21, 79);
+            this.label9.Location = new System.Drawing.Point(21, 199);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(82, 13);
             this.label9.TabIndex = 5;
@@ -301,23 +297,23 @@
             // 
             // txtPDFTitle
             // 
-            this.txtPDFTitle.Location = new System.Drawing.Point(121, 76);
+            this.txtPDFTitle.Location = new System.Drawing.Point(121, 196);
             this.txtPDFTitle.Name = "txtPDFTitle";
             this.txtPDFTitle.Size = new System.Drawing.Size(100, 20);
             this.txtPDFTitle.TabIndex = 4;
             // 
             // pbxImage
             // 
-            this.pbxImage.Location = new System.Drawing.Point(229, 14);
+            this.pbxImage.Location = new System.Drawing.Point(24, 42);
             this.pbxImage.Name = "pbxImage";
-            this.pbxImage.Size = new System.Drawing.Size(62, 45);
+            this.pbxImage.Size = new System.Drawing.Size(260, 130);
             this.pbxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbxImage.TabIndex = 3;
             this.pbxImage.TabStop = false;
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(164, 39);
+            this.btnBrowse.Location = new System.Drawing.Point(227, 13);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(57, 21);
             this.btnBrowse.TabIndex = 2;
@@ -341,40 +337,11 @@
             this.txtImgTitle.Size = new System.Drawing.Size(100, 20);
             this.txtImgTitle.TabIndex = 0;
             // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.label10);
-            this.panel5.Controls.Add(this.chelistbox_nature);
-            this.panel5.Location = new System.Drawing.Point(23, 405);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(297, 106);
-            this.panel5.TabIndex = 6;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(11, 13);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(79, 13);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "Natures produit";
-            // 
-            // chelistbox_nature
-            // 
-            this.chelistbox_nature.CheckOnClick = true;
-            this.chelistbox_nature.FormattingEnabled = true;
-            this.chelistbox_nature.Location = new System.Drawing.Point(11, 28);
-            this.chelistbox_nature.Name = "chelistbox_nature";
-            this.chelistbox_nature.Size = new System.Drawing.Size(277, 64);
-            this.chelistbox_nature.TabIndex = 0;
-            this.chelistbox_nature.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chelistbox_nature_ItemCheck);
-            // 
             // Produit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(807, 527);
-            this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -392,8 +359,6 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).EndInit();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -428,10 +393,7 @@
         private System.Windows.Forms.Button btnBrowsePdf;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtPDFTitle;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.CheckedListBox chelistbox_nature;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_List_Prod;
         private System.Windows.Forms.ComboBox comboBox_Statut;
     }
 }

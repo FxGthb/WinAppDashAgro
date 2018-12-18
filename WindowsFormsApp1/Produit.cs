@@ -36,12 +36,21 @@ namespace WindowsFormsApp1
         List<string> ListNature = new List<string>();
         List<int> List_ID_Nature = new List<int>();
 
+        string ProdName;
+
         #endregion
 
         public Produit()
         {
             InitializeComponent();
             database = new Database();
+            
+        }
+
+        public Produit(string Prod)
+        {
+            InitializeComponent();
+            ProdName = Prod;
         }
 
         private void buttonAjouterProduit_Click(object sender, EventArgs e)
@@ -153,26 +162,39 @@ namespace WindowsFormsApp1
         #region formLOAD
         private void Produit_Load(object sender, EventArgs e)
         {
-            //Main Main = new Main();
-            //this.MdiParent=Main;
-            comboBox_Statut.SelectedIndex = 0;            
-            try
+            if(ProdName != null)
             {
-                listCategories.DisplayMember = "Nom_Categorie";
-                listCategories.ValueMember = "ID_Categorie";
-                listCategories.SelectedValue = "ID_Categorie";
-                database.openconnection();
-                listCategories.DataSource = database.select("selectCat", "Categorie").Tables["Categorie"];
-                listCategories.SelectedIndex = -1;
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "Select * from Produit where Libelle ='"+ProdName+"'";
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
+                SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                DataTable DT = new DataTable();
+                DA.Fill(DT);
+                 
             }
-            catch (SqlException exception)
+            else
             {
-                MessageBox.Show(exception.ToString());
+                comboBox_Statut.SelectedIndex = 0;
+                try
+                {
+                    listCategories.DisplayMember = "Nom_Categorie";
+                    listCategories.ValueMember = "ID_Categorie";
+                    listCategories.SelectedValue = "ID_Categorie";
+                    database.openconnection();
+                    listCategories.DataSource = database.select("selectCat", "Categorie").Tables["Categorie"];
+                    listCategories.SelectedIndex = -1;
+                }
+                catch (SqlException exception)
+                {
+                    MessageBox.Show(exception.ToString());
+                }
+                finally
+                {
+                    database.closeconnecion();
+                }
             }
-            finally
-            {
-                database.closeconnecion();
-            }
+           
         }
         #endregion
 
@@ -223,15 +245,9 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //if (ListNature.Count > 0)
-            //{
-            //    foreach (var item in ListNature)
-            //    {
-            //        MessageBox.Show(item);
-            //    }
-            //}
-            //else
-            //    MessageBox.Show("Aucun element n'a ete selectionne");
+            Form1 form1 = new Form1();
+            form1.Show();
+            this.Hide();
         }
 
         

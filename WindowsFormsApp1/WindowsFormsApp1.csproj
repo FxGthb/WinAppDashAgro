@@ -71,6 +71,12 @@
     <Compile Include="Form_Categorie.Designer.cs">
       <DependentUpon>Form_Categorie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_PDF_Viewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_PDF_Viewer.Designer.cs">
+      <DependentUpon>Form_PDF_Viewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Categorie.resx">
       <DependentUpon>Form_Categorie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_PDF_Viewer.resx">
+      <DependentUpon>Form_PDF_Viewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

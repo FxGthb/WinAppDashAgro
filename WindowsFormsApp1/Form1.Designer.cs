@@ -40,13 +40,13 @@
             this.Libelle = new System.Windows.Forms.Label();
             this.natureBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button_PDF = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.natureTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.NatureTableAdapter();
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.button_PDF = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drvProduits)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).BeginInit();
@@ -107,6 +107,7 @@
             this.listCategories.Size = new System.Drawing.Size(331, 21);
             this.listCategories.TabIndex = 6;
             this.listCategories.ValueMember = "ID_Categorie";
+            this.listCategories.SelectedIndexChanged += new System.EventHandler(this.listCategories_SelectedIndexChanged);
             // 
             // categorieBindingSource
             // 
@@ -153,6 +154,16 @@
             this.panel2.Size = new System.Drawing.Size(399, 56);
             this.panel2.TabIndex = 7;
             // 
+            // button_PDF
+            // 
+            this.button_PDF.Location = new System.Drawing.Point(22, 17);
+            this.button_PDF.Name = "button_PDF";
+            this.button_PDF.Size = new System.Drawing.Size(75, 23);
+            this.button_PDF.TabIndex = 9;
+            this.button_PDF.Text = "PDF";
+            this.button_PDF.UseVisualStyleBackColor = true;
+            this.button_PDF.Click += new System.EventHandler(this.button_PDF_Click);
+            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(200, 17);
@@ -161,6 +172,7 @@
             this.button3.TabIndex = 7;
             this.button3.Text = "Delete";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -170,6 +182,7 @@
             this.button2.TabIndex = 6;
             this.button2.Text = "Update";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button4
             // 
@@ -179,6 +192,7 @@
             this.button4.TabIndex = 8;
             this.button4.Text = "New";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // natureTableAdapter
             // 
@@ -197,16 +211,6 @@
             this.linkLabel1.TabIndex = 8;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "linkLabel1";
-            // 
-            // button_PDF
-            // 
-            this.button_PDF.Location = new System.Drawing.Point(22, 17);
-            this.button_PDF.Name = "button_PDF";
-            this.button_PDF.Size = new System.Drawing.Size(75, 23);
-            this.button_PDF.TabIndex = 9;
-            this.button_PDF.Text = "PDF";
-            this.button_PDF.UseVisualStyleBackColor = true;
-            this.button_PDF.Click += new System.EventHandler(this.button_PDF_Click);
             // 
             // Form1
             // 
