@@ -83,6 +83,8 @@ namespace WindowsFormsApp1
                 {
                     if (ImageByteArray.Length != 0)
                         ImageByteArray = new byte[] { };
+                    //Update without image
+
                 }
                 else
                 {
@@ -90,6 +92,8 @@ namespace WindowsFormsApp1
                     MemoryStream strm = new MemoryStream();
                     temp.Save(strm, System.Drawing.Imaging.ImageFormat.Jpeg);
                     ImageByteArray = strm.ToArray();
+
+
                 }
                 if (sqlcon.State == ConnectionState.Closed)
                     sqlcon.Open();
@@ -131,6 +135,11 @@ namespace WindowsFormsApp1
             ImageID = Convert.ToInt32(dgvImages.CurrentRow.Cells[0].Value);
             btnSave.Text = "Update";
             buttonDelete.Enabled = true;
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

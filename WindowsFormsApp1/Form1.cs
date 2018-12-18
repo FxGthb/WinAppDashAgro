@@ -173,7 +173,7 @@ namespace WindowsFormsApp1
                 try
                 {
                     SqlCommand cmd = con.CreateCommand();
-                    cmd.CommandText = "delete Produit where Libelle ='" + item.Cells[1].Value.ToString() + "'";
+                    cmd.CommandText = "delete Produit where Libelle ='" + item.Cells[0].Value.ToString() + "'";
                     if (con.State == ConnectionState.Closed)
                         con.Open();
                     cmd.ExecuteNonQuery();
