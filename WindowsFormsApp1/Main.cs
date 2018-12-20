@@ -22,19 +22,27 @@ namespace WindowsFormsApp1
         private void nouveauToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Produit produit = new Produit();
+            produit.MdiParent = this;
             produit.Show();
         }
 
         private void listeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form1 form1 = new Form1();
+            form1.MdiParent = this;
             form1.Show();
         }
 
         private void listeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Form2 form2 = new Form2();
+            form2.MdiParent = this;
             form2.Show();
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            this.IsMdiContainer = true;
         }
     }
 }

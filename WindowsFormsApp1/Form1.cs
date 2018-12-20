@@ -31,21 +31,11 @@ namespace WindowsFormsApp1
             {
                 listCategories.DisplayMember = "Nom_Categorie";
                 listCategories.ValueMember = "ID_Categorie";
-                listCategories.SelectedValue = "ID_Categorie";                
+                listCategories.SelectedValue = "ID_Categorie";
                 database.openconnection();
                 listCategories.DataSource = database.select("selectCat", "Categorie").Tables["Categorie"];
-                //drvProduits.DataSource = database.select("selectPro", "Produits").Tables["Produits"];
-                SqlCommand cmd = con.CreateCommand();
-                cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Categorie.ID_Categorie ="+listCategories.SelectedValue;
-                if (con.State == ConnectionState.Closed)
-                    con.Open();
-                SqlDataAdapter DA = new SqlDataAdapter(cmd);
-                DataTable DT = new DataTable();
-                DA.Fill(DT);
-                drvProduits.DataSource = DT;
-
-
-                listCategories.SelectedIndex = -1;
+                drvProduits.DataSource = database.select("selectPro", "Produits").Tables["Produits"];
+                
                 //foreach (DataGridViewRow r in drvProduits.Rows)
                 //{
                 //    DataGridViewLinkCell lc = new DataGridViewLinkCell();
@@ -194,7 +184,7 @@ namespace WindowsFormsApp1
         private void listCategories_SelectedIndexChanged(object sender, EventArgs e)
         {
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Categorie.ID_Categorie =" + listCategories.SelectedValue;
+            cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Categorie.ID_Categorie ="+listCategories.SelectedValue;
             if (con.State == ConnectionState.Closed)
                 con.Open();
             SqlDataAdapter DA = new SqlDataAdapter(cmd);

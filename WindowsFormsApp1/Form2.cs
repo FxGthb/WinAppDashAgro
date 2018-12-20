@@ -31,6 +31,7 @@ namespace WindowsFormsApp1
             DefaultImage = pbxImage.Image;
             buttonDelete.Enabled = false;
             RefreshImageGrid();
+            
         }
 
         void RefreshImageGrid()
@@ -147,7 +148,8 @@ namespace WindowsFormsApp1
 
         private void Form2_Load(object sender, EventArgs e)
         {
-
+            
         }
+
     }
 }

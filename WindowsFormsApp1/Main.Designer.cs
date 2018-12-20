@@ -134,27 +134,27 @@
             // listeToolStripMenuItem
             // 
             this.listeToolStripMenuItem.Name = "listeToolStripMenuItem";
-            this.listeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.listeToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.listeToolStripMenuItem.Text = "Liste";
             this.listeToolStripMenuItem.Click += new System.EventHandler(this.listeToolStripMenuItem_Click);
             // 
             // nouveauToolStripMenuItem
             // 
             this.nouveauToolStripMenuItem.Name = "nouveauToolStripMenuItem";
-            this.nouveauToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nouveauToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.nouveauToolStripMenuItem.Text = "Nouveau";
             this.nouveauToolStripMenuItem.Click += new System.EventHandler(this.nouveauToolStripMenuItem_Click);
             // 
             // rechercheToolStripMenuItem
             // 
             this.rechercheToolStripMenuItem.Name = "rechercheToolStripMenuItem";
-            this.rechercheToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rechercheToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.rechercheToolStripMenuItem.Text = "Recherche";
             // 
             // miiseAJourToolStripMenuItem
             // 
             this.miiseAJourToolStripMenuItem.Name = "miiseAJourToolStripMenuItem";
-            this.miiseAJourToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.miiseAJourToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.miiseAJourToolStripMenuItem.Text = "Miise a jour";
             // 
             // categoriesToolStripMenuItem
@@ -171,7 +171,7 @@
             // listeToolStripMenuItem1
             // 
             this.listeToolStripMenuItem1.Name = "listeToolStripMenuItem1";
-            this.listeToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.listeToolStripMenuItem1.Size = new System.Drawing.Size(132, 22);
             this.listeToolStripMenuItem1.Text = "Liste";
             this.listeToolStripMenuItem1.Click += new System.EventHandler(this.listeToolStripMenuItem1_Click);
             // 
@@ -209,6 +209,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
             this.Text = "Main";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Main_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

@@ -32,7 +32,6 @@
             this.drvProduits = new System.Windows.Forms.DataGridView();
             this.txbLibelle = new System.Windows.Forms.TextBox();
             this.searchBtn = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.listCategories = new System.Windows.Forms.ComboBox();
             this.categorieBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.agroPartnersDataSet = new WindowsFormsApp1.AgroPartnersDataSet();
@@ -48,7 +47,6 @@
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.drvProduits)).BeginInit();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.natureBindingSource)).BeginInit();
@@ -59,25 +57,31 @@
             // 
             this.drvProduits.AllowUserToAddRows = false;
             this.drvProduits.AllowUserToDeleteRows = false;
+            this.drvProduits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.drvProduits.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.drvProduits.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.drvProduits.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.drvProduits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.drvProduits.Location = new System.Drawing.Point(12, 163);
+            this.drvProduits.GridColor = System.Drawing.SystemColors.Control;
+            this.drvProduits.Location = new System.Drawing.Point(12, 142);
             this.drvProduits.Name = "drvProduits";
             this.drvProduits.ReadOnly = true;
-            this.drvProduits.Size = new System.Drawing.Size(1026, 370);
+            this.drvProduits.Size = new System.Drawing.Size(1026, 449);
             this.drvProduits.TabIndex = 0;
             this.drvProduits.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.drvProduits_CellClick);
-            //this.drvProduits.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.drvProduits_CellContentClick_1);
             // 
             // txbLibelle
             // 
-            this.txbLibelle.Location = new System.Drawing.Point(82, 14);
+            this.txbLibelle.Location = new System.Drawing.Point(114, 16);
             this.txbLibelle.Name = "txbLibelle";
-            this.txbLibelle.Size = new System.Drawing.Size(332, 20);
+            this.txbLibelle.Size = new System.Drawing.Size(250, 20);
             this.txbLibelle.TabIndex = 1;
             // 
             // searchBtn
             // 
-            this.searchBtn.Location = new System.Drawing.Point(230, 91);
+            this.searchBtn.Location = new System.Drawing.Point(180, 88);
             this.searchBtn.Name = "searchBtn";
             this.searchBtn.Size = new System.Drawing.Size(184, 23);
             this.searchBtn.TabIndex = 2;
@@ -85,27 +89,14 @@
             this.searchBtn.UseVisualStyleBackColor = true;
             this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
             // 
-            // panel1
-            // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.listCategories);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.Libelle);
-            this.panel1.Controls.Add(this.searchBtn);
-            this.panel1.Controls.Add(this.txbLibelle);
-            this.panel1.Location = new System.Drawing.Point(301, 12);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(445, 133);
-            this.panel1.TabIndex = 6;
-            // 
             // listCategories
             // 
             this.listCategories.DataSource = this.categorieBindingSource;
             this.listCategories.DisplayMember = "Nom_Categorie";
             this.listCategories.FormattingEnabled = true;
-            this.listCategories.Location = new System.Drawing.Point(82, 53);
+            this.listCategories.Location = new System.Drawing.Point(114, 55);
             this.listCategories.Name = "listCategories";
-            this.listCategories.Size = new System.Drawing.Size(331, 21);
+            this.listCategories.Size = new System.Drawing.Size(250, 21);
             this.listCategories.TabIndex = 6;
             this.listCategories.ValueMember = "ID_Categorie";
             this.listCategories.SelectedIndexChanged += new System.EventHandler(this.listCategories_SelectedIndexChanged);
@@ -123,7 +114,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 60);
+            this.label1.Location = new System.Drawing.Point(54, 62);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 13);
             this.label1.TabIndex = 5;
@@ -132,7 +123,7 @@
             // Libelle
             // 
             this.Libelle.AutoSize = true;
-            this.Libelle.Location = new System.Drawing.Point(22, 17);
+            this.Libelle.Location = new System.Drawing.Point(54, 19);
             this.Libelle.Name = "Libelle";
             this.Libelle.Size = new System.Drawing.Size(37, 13);
             this.Libelle.TabIndex = 3;
@@ -145,12 +136,15 @@
             // 
             // panel2
             // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.button_PDF);
             this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.button4);
-            this.panel2.Location = new System.Drawing.Point(639, 539);
+            this.panel2.Location = new System.Drawing.Point(639, 12);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(399, 56);
             this.panel2.TabIndex = 7;
@@ -206,7 +200,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(135, 113);
+            this.linkLabel1.Location = new System.Drawing.Point(461, 98);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(55, 13);
             this.linkLabel1.TabIndex = 8;
@@ -218,16 +212,20 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1050, 603);
+            this.Controls.Add(this.listCategories);
             this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.Libelle);
+            this.Controls.Add(this.searchBtn);
             this.Controls.Add(this.drvProduits);
+            this.Controls.Add(this.txbLibelle);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.drvProduits)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.natureBindingSource)).EndInit();
@@ -242,7 +240,6 @@
         private System.Windows.Forms.DataGridView drvProduits;
         private System.Windows.Forms.TextBox txbLibelle;
         private System.Windows.Forms.Button searchBtn;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label Libelle;
         private System.Windows.Forms.ComboBox listCategories;

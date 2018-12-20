@@ -79,6 +79,7 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panel1.Controls.Add(this.comboBox_Statut);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label4);
@@ -185,6 +186,7 @@
             // 
             // panel2
             // 
+            this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.carateristiqueProduit);
@@ -231,6 +233,7 @@
             // 
             // panel3
             // 
+            this.panel3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panel3.Controls.Add(this.button_List_Prod);
             this.panel3.Controls.Add(this.buttonAjouterProduit);
             this.panel3.Location = new System.Drawing.Point(346, 456);
@@ -264,6 +267,7 @@
             // 
             // panel4
             // 
+            this.panel4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panel4.Controls.Add(this.btnBrowsePdf);
             this.panel4.Controls.Add(this.label9);
             this.panel4.Controls.Add(this.txtPDFTitle);
@@ -347,7 +351,9 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Produit";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Produit";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Produit_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
