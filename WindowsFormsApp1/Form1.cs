@@ -18,6 +18,12 @@ namespace WindowsFormsApp1
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["CS"].ConnectionString);
         private Database database;
         byte[] binaryData;
+        private string query = null;
+        private int prodID;
+        private string prodName;
+        Produit formProd = new Produit();
+        private List<Object> listobjects = new List<object>();
+        private List<Object> listofcontrols = new List<object>();
 
         public Form1()
         {
@@ -26,16 +32,41 @@ namespace WindowsFormsApp1
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        {            
+        {
+            
+            drvProduits.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             try
             {
+                
+
                 listCategories.DisplayMember = "Nom_Categorie";
                 listCategories.ValueMember = "ID_Categorie";
                 listCategories.SelectedValue = "ID_Categorie";
+                query = "SELECT [ID_Categorie] ,[Nom_Categorie] ,[Description_Categorie] FROM [dbo].[Categorie]";
                 database.openconnection();
-                listCategories.DataSource = database.select("selectCat", "Categorie").Tables["Categorie"];
-                drvProduits.DataSource = database.select("selectPro", "Produits").Tables["Produits"];
-                
+                listCategories.DataSource = database.getData(query, "Categorie").Tables["Categorie"];
+                listCategories.SelectedIndex = -1;
+                query = " SELECT TOP(1000)[ID_Produit]" +
+                          " ,c.[Nom_Categorie]" +
+                          " ,[Libelle]" +
+                          " ,[Emballage]" +
+                          " ,[PH]" +
+                          " ,[Description_Produit]" +
+                          " ,[Caracteristiques]" +
+                          " ,i.[Name] as 'Image'" +
+                          " ,PDF.[Name] 'Fiche technique'" +
+                          " ,PDF.FileId as 'pdfID'" +
+                          " ,i.FileId as 'imageID'" +
+                      " FROM[agroV2].[dbo].[Produits] as p" +
+                    " join dbo.Categorie as c on p.ID_Categorie = c.ID_Categorie" +
+                    " join dbo.Images as i on p.img_produit = i.FileId" +
+                    " join dbo.Pdfs as PDF on p.fiche_techniques = PDF.FileId";
+                database.closeconnecion();
+                database.openconnection();
+                drvProduits.DataSource = database.getData(query, "Produits").Tables["Produits"];
+                drvProduits.Columns[9].Visible = false;
+                drvProduits.Columns[10].Visible = false;
+                drvProduits.Columns[0].Visible = false;
                 //foreach (DataGridViewRow r in drvProduits.Rows)
                 //{
                 //    DataGridViewLinkCell lc = new DataGridViewLinkCell();
@@ -83,7 +114,8 @@ namespace WindowsFormsApp1
         private void searchBtn_Click(object sender, EventArgs e)
         {
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Produit.Libelle Like '%" + txbLibelle.Text + "%'";
+            cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit"+
+                                " join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Produit.Libelle Like '%" + txbLibelle.Text + "%'";
             if (con.State == ConnectionState.Closed)
                 con.Open();
             SqlDataAdapter DA = new SqlDataAdapter(cmd);
@@ -151,46 +183,54 @@ namespace WindowsFormsApp1
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Produit Form_Prod = new Produit();
-            Form_Prod.Show();
+            //Produit Form_Prod = new Produit();
+            formProd.Show();
             this.Hide();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in drvProduits.SelectedRows)
-            {
-                try
-                {
-                    SqlCommand cmd = con.CreateCommand();
-                    cmd.CommandText = "delete Produit where Libelle ='" + item.Cells[0].Value.ToString() + "'";
-                    if (con.State == ConnectionState.Closed)
-                        con.Open();
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Deleted !!");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Delete was not done.\n"+ex.Message);
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
+            //string prodName = drvProduits
+            
+            //    try
+            //    {
+            //        DialogResult result = MessageBox.Show("Do you really want to delete the product \"" + textBox1.Text + "\"?", "Confirm product deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            //        if (result == DialogResult.Yes)
+            //        {
+            //            query = "DELETE FROM `films`.`film` WHERE idfilm=@1";
+            //            listobjects.Clear();
+            //            listobjects.Add(idfilm);
+            //            db.OpenConnection();
+            //            db.delete(query, listobjects);
+            //            db.CloseConnection();
+            //            MessageBox.Show("deleted with success !");
+            //            //refill the data grid view
+            //            updatefilms_Load(sender, e);
+            //            button_new_Click(sender, e);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show("Delete was not done.\n"+ex.Message);
+            //    }
+            //    finally
+            //    {
+            //        con.Close();
+            //    }
+            
             
         }
 
         private void listCategories_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Categorie.ID_Categorie ="+listCategories.SelectedValue;
-            if (con.State == ConnectionState.Closed)
-                con.Open();
-            SqlDataAdapter DA = new SqlDataAdapter(cmd);
-            DataTable DT = new DataTable();
-            DA.Fill(DT);
-            drvProduits.DataSource = DT;
+        //    SqlCommand cmd = con.CreateCommand();
+        //    cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Categorie.ID_Categorie ="+listCategories.SelectedValue;
+        //    if (con.State == ConnectionState.Closed)
+        //        con.Open();
+        //    SqlDataAdapter DA = new SqlDataAdapter(cmd);
+        //    DataTable DT = new DataTable();
+        //    DA.Fill(DT);
+        //    drvProduits.DataSource = DT;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -208,6 +248,79 @@ namespace WindowsFormsApp1
                 form_Produit.Show();
                 this.Hide();
             }
+        }
+
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Button3_Click_1(object sender, EventArgs e)
+        {
+            query = "DELETE FROM [dbo].[Produit] WHERE Produit.ID_Produit =@1";
+            listobjects.Clear();
+            listobjects.Add(prodID);
+            database.openconnection();
+            database.delete(query, listobjects);
+            database.closeconnecion();
+            MessageBox.Show("deleted with success !");
+        }
+
+        private void DrvProduits_SelectionChanged(object sender, EventArgs e)
+        {
+            //DialogResult result = MessageBox.Show("Do you really want to delete the film \"" + prodName + "\"?", "Confirm product deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            //if (result == DialogResult.Yes)
+            //{
+            prodID = int.Parse(drvProduits.CurrentRow.Cells[0].Value.ToString());
+            prodName = drvProduits.CurrentRow.Cells[2].Value.ToString();
+            //}
+        }
+
+        private void Button4_Click_1(object sender, EventArgs e)
+        {            
+            formProd.Show();
+            this.Hide();
+        }
+
+        private void Button2_Click_1(object sender, EventArgs e)
+        {
+            int prodID = int.Parse(drvProduits.CurrentRow.Cells[0].Value.ToString());
+            string categName = drvProduits.CurrentRow.Cells[1].Value.ToString();
+            string prodName = drvProduits.CurrentRow.Cells[2].Value.ToString();
+            string prodEmballage = drvProduits.CurrentRow.Cells[3].Value.ToString();
+            string prodPH = drvProduits.CurrentRow.Cells[4].Value.ToString();
+            string prodDesc = drvProduits.CurrentRow.Cells[5].Value.ToString();
+            string prodCart = drvProduits.CurrentRow.Cells[6].Value.ToString();
+            string imageName = drvProduits.CurrentRow.Cells[7].Value.ToString();
+            string pdfName = drvProduits.CurrentRow.Cells[8].Value.ToString();
+            int imageID =int.Parse( drvProduits.CurrentRow.Cells[10].Value.ToString());
+            int pdfID = int.Parse(drvProduits.CurrentRow.Cells[9].Value.ToString());
+            listofcontrols.Clear();
+            listofcontrols.Add(prodID);
+            listofcontrols.Add(categName);
+            listofcontrols.Add(prodName);
+            listofcontrols.Add(prodEmballage);
+            listofcontrols.Add(prodPH);
+            listofcontrols.Add(prodDesc);
+            listofcontrols.Add(prodCart);
+            listofcontrols.Add(imageID);
+            listofcontrols.Add(pdfID);
+            listofcontrols.Add(imageName);
+            listofcontrols.Add(pdfName);
+            //listofcontrols.Add(ImageArray);
+            //listofcontrols.Add(prodImagaTitle);
+            //foreach (var item in ImageArray)
+            //{
+            //    MessageBox.Show(item.ToString());
+            //}
+            formProd.Show();
+            formProd.UpdateProd(listofcontrols);           
+
         }
     }
 }

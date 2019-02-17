@@ -71,6 +71,16 @@ namespace WindowsFormsApp1
             return dataSet;                     
         }
 
+        //Select statement
+        public DataSet getData(string query, string table)
+        {
+            dataSet = new DataSet();
+            bindingSource = new BindingSource();
+            SqlDataAdapter MyDA = new SqlDataAdapter();
+            MyDA.SelectCommand = new SqlCommand(query, connecion);
+            MyDA.Fill(dataSet, table);
+            return dataSet;
+        }
 
         public void insert(string procName, List<Object> list, List<String> listparam)
         {
@@ -83,5 +93,43 @@ namespace WindowsFormsApp1
             }
             command.ExecuteNonQuery();       
         }
+
+
+        //Delete statement
+        public void delete(string query, List<Object> listobjects)
+        {
+            int i = 1;
+            command = new SqlCommand(query, connecion) { CommandType = CommandType.Text };
+            foreach (var val in listobjects)
+            {
+                command.Parameters.AddWithValue("@" + i++, val);
+            }
+            command.ExecuteNonQuery();
+        }
+
+        //Update statement
+        public void update(string query, List<Object> listobjects)
+        {
+            int i = 1;
+            command = new SqlCommand(query, connecion) { CommandType = CommandType.Text };
+            foreach (var val in listobjects)
+            {
+                command.Parameters.AddWithValue("@" + i++, val);
+            }
+            command.ExecuteNonQuery();
+        }
+
+        //Insert statement
+        public void insert(string query, List<Object> listobjects)
+        {
+            int i = 1;
+            command = new SqlCommand(query, connecion) { CommandType = CommandType.Text };
+            foreach (var val in listobjects)
+            {
+                command.Parameters.AddWithValue("@" + i++, val);
+            }
+            command.ExecuteNonQuery();
+        }
+
     }
 }

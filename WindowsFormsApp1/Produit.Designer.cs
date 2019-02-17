@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Produit));
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox_Statut = new System.Windows.Forms.ComboBox();
@@ -48,24 +49,24 @@
             this.carateristiqueProduit = new System.Windows.Forms.TextBox();
             this.descriptionProduit = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.Cancel_btn = new System.Windows.Forms.Button();
+            this.buttonUpdateProduit = new System.Windows.Forms.Button();
             this.button_List_Prod = new System.Windows.Forms.Button();
             this.buttonAjouterProduit = new System.Windows.Forms.Button();
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.btnBrowsePdf = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtPDFTitle = new System.Windows.Forms.TextBox();
-            this.pbxImage = new System.Windows.Forms.PictureBox();
-            this.btnBrowse = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtImgTitle = new System.Windows.Forms.TextBox();
+            this.btnChoose = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
+            this.axAcroPDF1 = new AxAcroPDFLib.AxAcroPDF();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.categorieBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.agroPartnersDataSet)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axAcroPDF1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -90,7 +91,7 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.libelleProduit);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(19, 15);
+            this.panel1.Location = new System.Drawing.Point(47, 23);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(302, 239);
             this.panel1.TabIndex = 2;
@@ -191,9 +192,9 @@
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.carateristiqueProduit);
             this.panel2.Controls.Add(this.descriptionProduit);
-            this.panel2.Location = new System.Drawing.Point(346, 15);
+            this.panel2.Location = new System.Drawing.Point(365, 23);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(444, 417);
+            this.panel2.Size = new System.Drawing.Size(386, 311);
             this.panel2.TabIndex = 3;
             // 
             // label5
@@ -220,7 +221,7 @@
             this.carateristiqueProduit.Location = new System.Drawing.Point(9, 184);
             this.carateristiqueProduit.Multiline = true;
             this.carateristiqueProduit.Name = "carateristiqueProduit";
-            this.carateristiqueProduit.Size = new System.Drawing.Size(426, 230);
+            this.carateristiqueProduit.Size = new System.Drawing.Size(358, 99);
             this.carateristiqueProduit.TabIndex = 7;
             // 
             // descriptionProduit
@@ -228,22 +229,45 @@
             this.descriptionProduit.Location = new System.Drawing.Point(9, 32);
             this.descriptionProduit.Multiline = true;
             this.descriptionProduit.Name = "descriptionProduit";
-            this.descriptionProduit.Size = new System.Drawing.Size(426, 122);
+            this.descriptionProduit.Size = new System.Drawing.Size(358, 75);
             this.descriptionProduit.TabIndex = 6;
             // 
             // panel3
             // 
             this.panel3.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel3.Controls.Add(this.Cancel_btn);
+            this.panel3.Controls.Add(this.buttonUpdateProduit);
             this.panel3.Controls.Add(this.button_List_Prod);
             this.panel3.Controls.Add(this.buttonAjouterProduit);
-            this.panel3.Location = new System.Drawing.Point(346, 456);
+            this.panel3.Location = new System.Drawing.Point(636, 340);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(434, 56);
+            this.panel3.Size = new System.Drawing.Size(115, 147);
             this.panel3.TabIndex = 4;
+           
+            // 
+            // Cancel_btn
+            // 
+            this.Cancel_btn.Location = new System.Drawing.Point(20, 44);
+            this.Cancel_btn.Name = "Cancel_btn";
+            this.Cancel_btn.Size = new System.Drawing.Size(75, 23);
+            this.Cancel_btn.TabIndex = 3;
+            this.Cancel_btn.Text = "Annuler";
+            this.Cancel_btn.UseVisualStyleBackColor = true;
+            this.Cancel_btn.Click += new System.EventHandler(this.Button1_Click_1);
+            // 
+            // buttonUpdateProduit
+            // 
+            this.buttonUpdateProduit.Location = new System.Drawing.Point(20, 73);
+            this.buttonUpdateProduit.Name = "buttonUpdateProduit";
+            this.buttonUpdateProduit.Size = new System.Drawing.Size(75, 23);
+            this.buttonUpdateProduit.TabIndex = 2;
+            this.buttonUpdateProduit.Text = "Modifier";
+            this.buttonUpdateProduit.UseVisualStyleBackColor = true;
+            this.buttonUpdateProduit.Click += new System.EventHandler(this.ButtonUpdateProduit_Click);
             // 
             // button_List_Prod
             // 
-            this.button_List_Prod.Location = new System.Drawing.Point(264, 18);
+            this.button_List_Prod.Location = new System.Drawing.Point(20, 102);
             this.button_List_Prod.Name = "button_List_Prod";
             this.button_List_Prod.Size = new System.Drawing.Size(75, 23);
             this.button_List_Prod.TabIndex = 1;
@@ -253,7 +277,7 @@
             // 
             // buttonAjouterProduit
             // 
-            this.buttonAjouterProduit.Location = new System.Drawing.Point(345, 18);
+            this.buttonAjouterProduit.Location = new System.Drawing.Point(20, 15);
             this.buttonAjouterProduit.Name = "buttonAjouterProduit";
             this.buttonAjouterProduit.Size = new System.Drawing.Size(75, 23);
             this.buttonAjouterProduit.TabIndex = 0;
@@ -265,93 +289,83 @@
             // 
             this.categorieTableAdapter.ClearBeforeFill = true;
             // 
-            // panel4
+            // btnChoose
             // 
-            this.panel4.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.panel4.Controls.Add(this.btnBrowsePdf);
-            this.panel4.Controls.Add(this.label9);
-            this.panel4.Controls.Add(this.txtPDFTitle);
-            this.panel4.Controls.Add(this.pbxImage);
-            this.panel4.Controls.Add(this.btnBrowse);
-            this.panel4.Controls.Add(this.label7);
-            this.panel4.Controls.Add(this.txtImgTitle);
-            this.panel4.Location = new System.Drawing.Point(20, 260);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(301, 252);
-            this.panel4.TabIndex = 5;
+            this.btnChoose.Location = new System.Drawing.Point(48, 268);
+            this.btnChoose.Name = "btnChoose";
+            this.btnChoose.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnChoose.Size = new System.Drawing.Size(107, 23);
+            this.btnChoose.TabIndex = 7;
+            this.btnChoose.Text = "Choose png File";
+            this.btnChoose.UseVisualStyleBackColor = true;
+            this.btnChoose.Click += new System.EventHandler(this.BtnChoose_Click);
             // 
-            // btnBrowsePdf
+            // dataGridView1
             // 
-            this.btnBrowsePdf.Location = new System.Drawing.Point(227, 196);
-            this.btnBrowsePdf.Name = "btnBrowsePdf";
-            this.btnBrowsePdf.Size = new System.Drawing.Size(57, 21);
-            this.btnBrowsePdf.TabIndex = 6;
-            this.btnBrowsePdf.Text = "Parcourir";
-            this.btnBrowsePdf.UseVisualStyleBackColor = true;
-            this.btnBrowsePdf.Click += new System.EventHandler(this.btnBrowsePdf_Click);
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(47, 297);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(264, 131);
+            this.dataGridView1.TabIndex = 6;
             // 
-            // label9
+            // button1
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(21, 199);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(82, 13);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "Documentattion";
+            this.button1.Location = new System.Drawing.Point(762, 46);
+            this.button1.Name = "button1";
+            this.button1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button1.Size = new System.Drawing.Size(88, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Choose pdf File";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click_2);
             // 
-            // txtPDFTitle
+            // axAcroPDF1
             // 
-            this.txtPDFTitle.Location = new System.Drawing.Point(121, 196);
-            this.txtPDFTitle.Name = "txtPDFTitle";
-            this.txtPDFTitle.Size = new System.Drawing.Size(100, 20);
-            this.txtPDFTitle.TabIndex = 4;
+            this.axAcroPDF1.Enabled = true;
+            this.axAcroPDF1.Location = new System.Drawing.Point(762, 72);
+            this.axAcroPDF1.Name = "axAcroPDF1";
+            this.axAcroPDF1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axAcroPDF1.OcxState")));
+            this.axAcroPDF1.Size = new System.Drawing.Size(607, 666);
+            this.axAcroPDF1.TabIndex = 10;
             // 
-            // pbxImage
+            // button2
             // 
-            this.pbxImage.Location = new System.Drawing.Point(24, 42);
-            this.pbxImage.Name = "pbxImage";
-            this.pbxImage.Size = new System.Drawing.Size(260, 130);
-            this.pbxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbxImage.TabIndex = 3;
-            this.pbxImage.TabStop = false;
+            this.button2.Location = new System.Drawing.Point(290, 268);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(21, 23);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "X";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
-            // btnBrowse
+            // button3
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(227, 13);
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(57, 21);
-            this.btnBrowse.TabIndex = 2;
-            this.btnBrowse.Text = "Parcourir";
-            this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(21, 16);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(71, 13);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Image produit";
-            // 
-            // txtImgTitle
-            // 
-            this.txtImgTitle.Location = new System.Drawing.Point(121, 13);
-            this.txtImgTitle.Name = "txtImgTitle";
-            this.txtImgTitle.Size = new System.Drawing.Size(100, 20);
-            this.txtImgTitle.TabIndex = 0;
+            this.button3.Location = new System.Drawing.Point(1346, 46);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(23, 23);
+            this.button3.TabIndex = 11;
+            this.button3.Text = "X";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.Button3_Click);
             // 
             // Produit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(807, 527);
-            this.Controls.Add(this.panel4);
+            this.ClientSize = new System.Drawing.Size(1376, 750);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.axAcroPDF1);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnChoose);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Produit";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Produit";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Produit_Load);
@@ -362,9 +376,8 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axAcroPDF1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -390,16 +403,16 @@
         private AgroPartnersDataSet agroPartnersDataSet;
         private System.Windows.Forms.BindingSource categorieBindingSource;
         private AgroPartnersDataSetTableAdapters.CategorieTableAdapter categorieTableAdapter;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Button btnBrowse;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtImgTitle;
-        private System.Windows.Forms.PictureBox pbxImage;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button btnBrowsePdf;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtPDFTitle;
         private System.Windows.Forms.Button button_List_Prod;
         private System.Windows.Forms.ComboBox comboBox_Statut;
+        private System.Windows.Forms.Button buttonUpdateProduit;
+        private System.Windows.Forms.Button btnChoose;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button Cancel_btn;
+        private System.Windows.Forms.Button button1;
+        private AxAcroPDFLib.AxAcroPDF axAcroPDF1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
     }
 }
