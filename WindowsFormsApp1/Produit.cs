@@ -20,26 +20,10 @@ namespace WindowsFormsApp1
         DataTable DT = new DataTable();
         private List<Object> list = new List<object>();
         private List<String> listparam = new List<String>();
-        //int pdfID = 0;
-        String strFilePath = "";
-        String pdfstrFilePath = "";
-        Image DefaultImage;
-        Byte[] ImageByteArray;
-        Byte[] pdfByteArray;
-        byte[] pdf_pro;
-        Byte[] image_pro;
         string fileName;
         private string fileSavePath;
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CS"].ConnectionString); 
-                
-        DataSet dtSet = new DataSet();
         private Database database;
-
-        BindingSource bindingSource = new BindingSource();
-
-        List<string> ListNature = new List<string>();
-        List<int> List_ID_Nature = new List<int>();
-
         string ProdName;
         private string query;
         private string pdffileName;
@@ -48,6 +32,8 @@ namespace WindowsFormsApp1
         private int pdfID;
         private string imageName;
         private string pdfName;
+        private bool imgFileIsChoosen;
+        private bool pdfFileIsChoosen;
 
         #endregion
 
@@ -78,32 +64,6 @@ namespace WindowsFormsApp1
             pdfID = int.Parse(listofcontrols[8].ToString());
             imageName = listofcontrols[9].ToString();
             pdfName = listofcontrols[10].ToString();
-            //MessageBox.Show(imageName);
-            //txtImgTitle.Text = listofcontrols[8].ToString();
-            /*
-                byte[] imageSource = **byte array**;
-                Bitmap image;
-                using (MemoryStream stream = new MemoryStream(imageSource))
-                {
-                   image = new Bitmap(stream);
-                }
-                pictureBox.Image = image;
-             */
-            //byte[] ImageArray = bytes;
-            //Bitmap image;
-            //using (MemoryStream stream = new MemoryStream(ImageArray))
-            //{
-            //    image = new Bitmap(stream);
-            //}
-            //pbxImage.Image = image;
-            //if (ImageArray.Length == 0)
-            //    pbxImage.Image = DefaultImage;
-            //else
-            //{
-            //    ImageByteArray = ImageArray;
-            //    pbxImage.Image = pbxImage.(ImageArray));
-            //}
-            //ImageID = Convert.ToInt32(dgvImages.CurrentRow.Cells[0].Value);
             carateristiqueProduit.Text = listofcontrols[6].ToString();
             index = listCategories.FindString(listofcontrols[1].ToString());
             listCategories.SelectedIndex = index;
@@ -279,6 +239,8 @@ namespace WindowsFormsApp1
         #region formLOAD
         private void Produit_Load(object sender, EventArgs e)
         {
+            imgFileIsChoosen = false;
+            pdfFileIsChoosen = false;
             buttonUpdateProduit.Enabled = false;
             buttonAjouterProduit.Enabled = true;
             if (ProdName != null)
@@ -345,52 +307,9 @@ namespace WindowsFormsApp1
 
         }
         #endregion
+        
 
-        //#region button browse image clickEvent()
-        //private void btnBrowse_Click(object sender, EventArgs e)
-        //{
-        //    OpenFileDialog ofd = new OpenFileDialog();
-        //    ofd.Filter = "Images(.jpg,.png)|*.png;*.jpg";
-        //    if (ofd.ShowDialog() == DialogResult.OK)
-        //    {
-        //        strFilePath = ofd.FileName;
-        //        pbxImage.Image = new Bitmap(strFilePath);
-        //        if (txtImgTitle.Text.Trim().Length == 0)//Auto-Fill title if is empty
-        //            txtImgTitle.Text = System.IO.Path.GetFileName(strFilePath);
-        //    }
-        //}
-        //#endregion
-
-        //#region browse pdf clickEvent()
-        //private void btnBrowsePdf_Click(object sender, EventArgs e)
-        //{
-        //    OpenFileDialog ofd = new OpenFileDialog();
-        //    ofd.Filter = "Pdf Files|*.pdf";
-        //    if (ofd.ShowDialog() == DialogResult.OK)
-        //    {
-        //        pdfstrFilePath = ofd.FileName;
-        //        //pbxImage.Image = new Bitmap(strFilePath);
-        //        if (txtPDFTitle.Text.Trim().Length == 0)//Auto-Fill title if is empty
-        //            txtPDFTitle.Text = System.IO.Path.GetFileName(pdfstrFilePath);
-        //    }
-
-        //}
-        //#endregion
-
-        private void chelistbox_nature_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            //if (e.CurrentValue == CheckState.Unchecked && e.NewValue == CheckState.Checked)
-            //    ListNature.Add(chelistbox_nature.Items[e.Index].ToString());
-            //else
-            //{
-            //    if (e.Index != 0)
-            //        ListNature.RemoveAt(e.Index);
-            //    else
-            //        ListNature.Clear();
-            //}
-                
-        }
-
+      
         private void button1_Click(object sender, EventArgs e)
         {
             Form1 form1 = new Form1();
@@ -400,78 +319,112 @@ namespace WindowsFormsApp1
 
         private void ButtonUpdateProduit_Click(object sender, EventArgs e)
         {
-            //if (txtImgTitle.Text.Trim() != "")
-            //{
-            //    if (strFilePath == "")
-            //    {
-            //        if (ImageByteArray.Length != 0)
-            //            ImageByteArray = new byte[] { };
-            //    }
-            //    else
-            //    {
-            //        Image temp = new Bitmap(strFilePath);
-            //        MemoryStream strm = new MemoryStream();
-            //        temp.Save(strm, System.Drawing.Imaging.ImageFormat.Jpeg);
-            //        ImageByteArray = strm.ToArray();
-            //    }
-            //    image_pro = ImageByteArray;
+            bool imgEXIST = false;
+            bool pdfEXIST = false;
+            if (axAcroPDF1.src.Equals("DOESNTEXIST.pdf"))
+            {
+                MessageBox.Show("La fiche technique est obligatoire !");
+                //pdfEXIST = false;
+            }
 
-            //update image
-            DeleteFiles(imageName, false);
-            query = "UPDATE [dbo].[Images] SET [Name] = '"+ Path.GetFileName(fileName) + "',[Path] = '"+ fileSavePath + "' WHERE Images.FileId = @1 ";
-            list.Clear();
-            list.Add(imageID);
-            database.openconnection();
-            database.insert(query, list);
-            database.closeconnecion();            
-            MessageBox.Show("image updated !");
+            if (dataGridView1.Rows.Count == 0)
+            {
+                MessageBox.Show("L'image est obligatoire !");
+                //imgEXIST = false;
+            }
 
-            //update pdf
-            DeleteFiles(pdfName, true);
-            query = "UPDATE [dbo].[Pdfs] SET [Name] = '" + Path.GetFileName(pdffileName) + "',[Path] = '" + pdffileSavePath + "' WHERE Pdfs.FileId = @1 ";
-            list.Clear();
-            list.Add(pdfID);
-            database.openconnection();
-            database.insert(query, list);
-            database.closeconnecion();
-            MessageBox.Show("pdf updated !");
+            if (imgFileIsChoosen)
+            {
+                //update image
+                DeleteFiles(imageName, false);
+                query = "UPDATE [dbo].[Images] SET [Name] = '" + Path.GetFileName(fileName) + "',[Path] = '" + fileSavePath + "' WHERE Images.FileId = @1 ";
+                list.Clear();
+                list.Add(imageID);
+                database.openconnection();
+                database.insert(query, list);
+                database.closeconnecion();
+                MessageBox.Show("image updated !");
+                imgEXIST = true;
+                imgFileIsChoosen = false;
+            }
 
+            if (pdfFileIsChoosen)
+            {
+                //update pdf
+                DeleteFiles(pdfName, true);
+                query = "UPDATE [dbo].[Pdfs] SET [Name] = '" + Path.GetFileName(pdffileName) + "',[Path] = '" + pdffileSavePath + "' WHERE Pdfs.FileId = @1 ";
+                list.Clear();
+                list.Add(pdfID);
+                database.openconnection();
+                database.insert(query, list);
+                database.closeconnecion();
+                MessageBox.Show("pdf updated !");
+                pdfEXIST = true;
+                pdfFileIsChoosen = false;
+            }            
+            
             // update product
-
-            //}
-            //else
-            //    MessageBox.Show("Please enter image title");
-
-
-
+            if (imgEXIST && pdfEXIST)
+            {
+                Int32 id_cate = (int)listCategories.SelectedValue;
+                String libl = libelleProduit.Text.Trim();
+                String embal = emballageProduit.Text.Trim();
+                String ph = phProduit.Text.Trim();
+                String desc = descriptionProduit.Text.Trim();
+                String carac = carateristiqueProduit.Text.Trim();
+                query = "UPDATE [dbo].[Produits]" +
+                        " SET [ID_Categorie] ='" + id_cate + "' ,[Libelle] ='" + libl + "' ,[Emballage] = '" + embal + "',[PH] ='" + ph + "' ,[Description_Produit] ='" + desc + "'" +
+                        " ,[Caracteristiques] = '" + carac + "'" +
+                        " WHERE Produits.ID_Produit = @1";
+                list.Clear();
+                list.Add(idPro);
+                database.openconnection();
+                database.update(query, list);
+                database.closeconnecion();
+                MessageBox.Show("product updated !");
+            }
+                 
+            
         }        
 
         private void DeleteFiles(string file, bool isPDF)
         {
             string cell = file;
-            string fileName=null;
+            string fileName = null;
             // full path required
             if (isPDF)
             {
                 fileName = (@"..\..\Files\Pdfs\" + cell);
+                if (fileName != null || fileName != string.Empty)
+                {
+                    if ((System.IO.File.Exists(fileName)))
+                    {
+                        System.IO.File.Delete(fileName);
+                        axAcroPDF1.LoadFile("DOESNTEXIST.pdf");
+                        axAcroPDF1.src = null;
+                    }
+                }
             }
             else
-            fileName = (@"..\..\Files\Images\" + cell);
-            if (fileName != null || fileName != string.Empty)
             {
-                if ((System.IO.File.Exists(fileName)))
+                fileName = (@"..\..\Files\Images\" + cell);
+                if (fileName != null || fileName != string.Empty)
                 {
-                    System.IO.File.Delete(fileName);
-                    DT.Clear();
-                    dataGridView1.DataSource = DT;
-                }
+                    if ((System.IO.File.Exists(fileName)))
+                    {
+                        System.IO.File.Delete(fileName);
+                        DT.Clear();
+                        dataGridView1.DataSource = DT;
+                    }
 
+                }
             }
+            
         }
 
         private void BtnChoose_Click(object sender, EventArgs e)
         {
-            //Button2_Click(sender,e);
+            imgFileIsChoosen = true;
             DT.Clear();
             dataGridView1.DataSource = DT;
             DT.Columns.Add("Nom");
@@ -518,31 +471,8 @@ namespace WindowsFormsApp1
                         row["Data"] = File.ReadAllBytes(row["Image"].ToString());
                     }
                     dataGridView1.DataSource = DT;
-                   // this.BindDataGridView();
-                }
-            }
-        }
-
-        private void BindDataGridView()
-        {
-            string constr = "Data Source=.;Initial Catalog=master;Integrated Security=True";
-            using (SqlConnection conn = new SqlConnection(constr))
-            {
-                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Files", conn))
-                {
-                    DataTable dt = new DataTable();
-                    sda.Fill(dt);
-
-                    //Add a new Byte[] Column.
-                    dt.Columns.Add("Data", Type.GetType("System.Byte[]"));
-
-                    //Convert all Images to Byte[] and copy to DataTable.
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        row["Data"] = File.ReadAllBytes(row["Path"].ToString());
-                    }
-
-                    dataGridView1.DataSource = dt;
+                    
+                    // this.BindDataGridView();
                 }
             }
         }
@@ -582,7 +512,7 @@ namespace WindowsFormsApp1
 
         private void Button1_Click_2(object sender, EventArgs e)
         {
-            //Button3_Click(sender, e);
+            pdfFileIsChoosen = true;
             //DT.Clear();
             //DT.Columns.Add("Nom");
             //DT.Columns.Add("Image");
@@ -651,7 +581,10 @@ namespace WindowsFormsApp1
             //    }
 
             //}
-            DeleteFiles(dataGridView1.Rows[0].Cells[0].Value.ToString(), false);
+            //DeleteFiles(dataGridView1.Rows[0].Cells[0].Value.ToString(), false);
+            DT.Clear();
+            dataGridView1.DataSource = DT;
+            imgFileIsChoosen = false;
         }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -667,7 +600,11 @@ namespace WindowsFormsApp1
             //         axAcroPDF1.src = null;
             //     }
             //}
-            DeleteFiles(pdffileName, true);
+            //DeleteFiles(pdffileName, true);
+            axAcroPDF1.LoadFile("DOESNTEXIST.pdf");
+            pdfFileIsChoosen = false;
+            //axAcroPDF1.src = "";
+            //MessageBox.Show(axAcroPDF1.src.ToString());
         }
     }
 }
