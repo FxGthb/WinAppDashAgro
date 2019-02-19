@@ -262,13 +262,13 @@ namespace WindowsFormsApp1
 
         private void Button3_Click_1(object sender, EventArgs e)
         {
-            query = "DELETE FROM [dbo].[Produit] WHERE Produit.ID_Produit =@1";
-            listobjects.Clear();
-            listobjects.Add(prodID);
-            database.openconnection();
-            database.delete(query, listobjects);
-            database.closeconnecion();
-            MessageBox.Show("deleted with success !");
+            //query = "DELETE FROM [dbo].[Produit] WHERE Produit.ID_Produit =@1";
+            //listobjects.Clear();
+            //listobjects.Add(prodID);
+            //database.openconnection();
+            //database.delete(query, listobjects);
+            //database.closeconnecion();
+            //MessageBox.Show("deleted with success !");
         }
 
         private void DrvProduits_SelectionChanged(object sender, EventArgs e)

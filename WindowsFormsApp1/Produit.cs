@@ -32,8 +32,11 @@ namespace WindowsFormsApp1
         private int pdfID;
         private string imageName;
         private string pdfName;
+        private bool cantChooseImgFile = false;
         private bool imgFileIsChoosen;
         private bool pdfFileIsChoosen;
+        private bool cantChoosePdfFile;
+        private bool commingFromUpdateBtn;
 
         #endregion
 
@@ -54,6 +57,7 @@ namespace WindowsFormsApp1
         {
             buttonUpdateProduit.Enabled = true;
             buttonAjouterProduit.Enabled = false;
+            commingFromUpdateBtn = true;
             int index;
             idPro = int.Parse(listofcontrols[0].ToString());
             libelleProduit.Text = listofcontrols[2].ToString();
@@ -243,6 +247,8 @@ namespace WindowsFormsApp1
             pdfFileIsChoosen = false;
             buttonUpdateProduit.Enabled = false;
             buttonAjouterProduit.Enabled = true;
+            cantChooseImgFile = false;
+            cantChoosePdfFile = false;
             if (ProdName != null)
             {
                 SqlCommand cmd = conn.CreateCommand();
@@ -364,7 +370,7 @@ namespace WindowsFormsApp1
             }            
             
             // update product
-            if (imgEXIST && pdfEXIST)
+            if (imgEXIST || pdfEXIST)
             {
                 Int32 id_cate = (int)listCategories.SelectedValue;
                 String libl = libelleProduit.Text.Trim();
@@ -383,7 +389,10 @@ namespace WindowsFormsApp1
                 database.closeconnecion();
                 MessageBox.Show("product updated !");
             }
-                 
+            //else
+            //{
+            //    MessageBox.Show("Veuillez choisir l'image et la fiche technique SVP!");
+            //}               
             
         }        
 
@@ -424,57 +433,70 @@ namespace WindowsFormsApp1
 
         private void BtnChoose_Click(object sender, EventArgs e)
         {
-            imgFileIsChoosen = true;
-            DT.Clear();
-            dataGridView1.DataSource = DT;
-            DT.Columns.Add("Nom");
-            DT.Columns.Add("Image");
-            //DT.Rows.Add(new object[] { "Ravi", 500 });
-
-            //string saveDirectory = @"C:\Users\DELL LATITUDE E5480\Desktop\DataGridView_Image_Path_Database\SavedImages\";
-            //string saveDirectory = System.IO.Path.GetDirectoryName("Files");
-            string saveDirectory = @"..\..\Files\Images\";
-            //string documents = Directory.GetDirectories("../..Files");
-            //string[] files = File.ReadAllLines(path);
-            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
+            isCommingFromUpdate :
+            if (!cantChooseImgFile)
             {
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                imgFileIsChoosen = true;
+                DT.Clear();
+                dataGridView1.DataSource = DT;
+                DT.Columns.Add("Nom");
+                DT.Columns.Add("Image");
+                //DT.Rows.Add(new object[] { "Ravi", 500 });
+
+                //string saveDirectory = @"C:\Users\DELL LATITUDE E5480\Desktop\DataGridView_Image_Path_Database\SavedImages\";
+                //string saveDirectory = System.IO.Path.GetDirectoryName("Files");
+                string saveDirectory = @"..\..\Files\Images\";
+                //string documents = Directory.GetDirectories("../..Files");
+                //string[] files = File.ReadAllLines(path);
+                using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
                 {
-                    if (!Directory.Exists(saveDirectory))
+                    if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
-                        Directory.CreateDirectory(saveDirectory);
+                        if (!Directory.Exists(saveDirectory))
+                        {
+                            Directory.CreateDirectory(saveDirectory);
+                        }
+
+                        fileName = Path.GetFileName(openFileDialog1.FileName);
+                        fileSavePath = Path.Combine(saveDirectory, fileName);
+                        File.Copy(openFileDialog1.FileName, fileSavePath, true);
+
+                        DT.Rows.Add(new object[] { Path.GetFileName(fileName), fileSavePath });
+                        //string constr = "Data Source=.;Initial Catalog=master;Integrated Security=True";
+                        //using (SqlConnection conn = new SqlConnection(constr))
+                        //{
+                        //    string sql = "INSERT INTO Files VALUES(@Name, @Path)";
+                        //    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                        //    {
+                        //        cmd.Parameters.AddWithValue("@Name", Path.GetFileName(fileName));
+                        //        cmd.Parameters.AddWithValue("@Path", fileSavePath);
+                        //        conn.Open();
+                        //        cmd.ExecuteNonQuery();
+                        //        conn.Close();
+                        //    }
+                        //}
+                        DT.Columns.Add("Data", Type.GetType("System.Byte[]"));
+
+                        //Convert all Images to Byte[] and copy to DataTable.
+                        foreach (DataRow row in DT.Rows)
+                        {
+                            row["Data"] = File.ReadAllBytes(row["Image"].ToString());
+                        }
+                        dataGridView1.DataSource = DT;
+                        cantChooseImgFile = true;
+                        // this.BindDataGridView();
                     }
-
-                     fileName = Path.GetFileName(openFileDialog1.FileName);
-                    fileSavePath = Path.Combine(saveDirectory, fileName);
-                    File.Copy(openFileDialog1.FileName, fileSavePath, true);
-
-                    DT.Rows.Add(new object[] { Path.GetFileName(fileName), fileSavePath });
-                    //string constr = "Data Source=.;Initial Catalog=master;Integrated Security=True";
-                    //using (SqlConnection conn = new SqlConnection(constr))
-                    //{
-                    //    string sql = "INSERT INTO Files VALUES(@Name, @Path)";
-                    //    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                    //    {
-                    //        cmd.Parameters.AddWithValue("@Name", Path.GetFileName(fileName));
-                    //        cmd.Parameters.AddWithValue("@Path", fileSavePath);
-                    //        conn.Open();
-                    //        cmd.ExecuteNonQuery();
-                    //        conn.Close();
-                    //    }
-                    //}
-                    DT.Columns.Add("Data", Type.GetType("System.Byte[]"));
-
-                    //Convert all Images to Byte[] and copy to DataTable.
-                    foreach (DataRow row in DT.Rows)
-                    {
-                        row["Data"] = File.ReadAllBytes(row["Image"].ToString());
-                    }
-                    dataGridView1.DataSource = DT;
-                    
-                    // this.BindDataGridView();
                 }
             }
+            else if (commingFromUpdateBtn)
+            {
+                goto isCommingFromUpdate;
+            }
+            else
+            {
+                MessageBox.Show("Vous avez déja choisis une image, voulliez supprimer l'image existante");
+            }
+            
         }
 
         private void Button1_Click_1(object sender, EventArgs e)
@@ -512,57 +534,65 @@ namespace WindowsFormsApp1
 
         private void Button1_Click_2(object sender, EventArgs e)
         {
-            pdfFileIsChoosen = true;
-            //DT.Clear();
-            //DT.Columns.Add("Nom");
-            //DT.Columns.Add("Image");
-            //DT.Rows.Add(new object[] { "Ravi", 500 });
-
-            //string saveDirectory = @"C:\Users\DELL LATITUDE E5480\Desktop\DataGridView_Image_Path_Database\SavedImages\";
-            //string saveDirectory = System.IO.Path.GetDirectoryName("Files");
-            string saveDirectory = @"..\..\Files\Pdfs\";
-            //string documents = Directory.GetDirectories("../..Files");
-            //string[] files = File.ReadAllLines(path);
-            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
+            if (!cantChoosePdfFile)
             {
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                pdfFileIsChoosen = true;
+                //DT.Clear();
+                //DT.Columns.Add("Nom");
+                //DT.Columns.Add("Image");
+                //DT.Rows.Add(new object[] { "Ravi", 500 });
+
+                //string saveDirectory = @"C:\Users\DELL LATITUDE E5480\Desktop\DataGridView_Image_Path_Database\SavedImages\";
+                //string saveDirectory = System.IO.Path.GetDirectoryName("Files");
+                string saveDirectory = @"..\..\Files\Pdfs\";
+                //string documents = Directory.GetDirectories("../..Files");
+                //string[] files = File.ReadAllLines(path);
+                using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
                 {
-                    if (!Directory.Exists(saveDirectory))
+                    if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
-                        Directory.CreateDirectory(saveDirectory);
+                        if (!Directory.Exists(saveDirectory))
+                        {
+                            Directory.CreateDirectory(saveDirectory);
+                        }
+
+                        pdffileName = Path.GetFileName(openFileDialog1.FileName);
+                        pdffileSavePath = Path.Combine(saveDirectory, pdffileName);
+                        File.Copy(openFileDialog1.FileName, pdffileSavePath, true);
+
+                        axAcroPDF1.src = openFileDialog1.FileName;
+                        cantChoosePdfFile = true;
+                        //DT.Rows.Add(new object[] { Path.GetFileName(fileName), fileSavePath });
+                        //string constr = "Data Source=.;Initial Catalog=master;Integrated Security=True";
+                        //using (SqlConnection conn = new SqlConnection(constr))
+                        //{
+                        //    string sql = "INSERT INTO Files VALUES(@Name, @Path)";
+                        //    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                        //    {
+                        //        cmd.Parameters.AddWithValue("@Name", Path.GetFileName(fileName));
+                        //        cmd.Parameters.AddWithValue("@Path", fileSavePath);
+                        //        conn.Open();
+                        //        cmd.ExecuteNonQuery();
+                        //        conn.Close();
+                        //    }
+                        //}
+                        //DT.Columns.Add("Data", Type.GetType("System.Byte[]"));
+
+                        ////Convert all Images to Byte[] and copy to DataTable.
+                        //foreach (DataRow row in DT.Rows)
+                        //{
+                        //    row["Data"] = File.ReadAllBytes(row["Image"].ToString());
+                        //}
+                        //dataGridView1.DataSource = DT;
+                        // this.BindDataGridView();
                     }
-
-                    pdffileName = Path.GetFileName(openFileDialog1.FileName);
-                    pdffileSavePath = Path.Combine(saveDirectory, pdffileName);
-                    File.Copy(openFileDialog1.FileName, pdffileSavePath, true);
-
-                    axAcroPDF1.src = openFileDialog1.FileName;
-
-                    //DT.Rows.Add(new object[] { Path.GetFileName(fileName), fileSavePath });
-                    //string constr = "Data Source=.;Initial Catalog=master;Integrated Security=True";
-                    //using (SqlConnection conn = new SqlConnection(constr))
-                    //{
-                    //    string sql = "INSERT INTO Files VALUES(@Name, @Path)";
-                    //    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                    //    {
-                    //        cmd.Parameters.AddWithValue("@Name", Path.GetFileName(fileName));
-                    //        cmd.Parameters.AddWithValue("@Path", fileSavePath);
-                    //        conn.Open();
-                    //        cmd.ExecuteNonQuery();
-                    //        conn.Close();
-                    //    }
-                    //}
-                    //DT.Columns.Add("Data", Type.GetType("System.Byte[]"));
-
-                    ////Convert all Images to Byte[] and copy to DataTable.
-                    //foreach (DataRow row in DT.Rows)
-                    //{
-                    //    row["Data"] = File.ReadAllBytes(row["Image"].ToString());
-                    //}
-                    //dataGridView1.DataSource = DT;
-                    // this.BindDataGridView();
                 }
+                
             }
+            else
+            {
+                MessageBox.Show("Vous avez déja choisis une fiche technique, voulliez supprimer la fiche existante");
+            }           
         }
 
         private void Button2_Click(object sender, EventArgs e)
@@ -581,10 +611,19 @@ namespace WindowsFormsApp1
             //    }
 
             //}
-            //DeleteFiles(dataGridView1.Rows[0].Cells[0].Value.ToString(), false);
+            DeleteFiles(dataGridView1.Rows[0].Cells[0].Value.ToString(), false);
             DT.Clear();
             dataGridView1.DataSource = DT;
-            imgFileIsChoosen = false;
+            if (!commingFromUpdateBtn)
+            {
+                DT.Columns.Remove("Nom");
+                DT.Columns.Remove("Image");
+                DT.Columns.Remove("Data");
+                imgFileIsChoosen = false;
+                cantChooseImgFile = false;
+                commingFromUpdateBtn = false;
+            }
+            
         }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -600,9 +639,10 @@ namespace WindowsFormsApp1
             //         axAcroPDF1.src = null;
             //     }
             //}
-            //DeleteFiles(pdffileName, true);
+            DeleteFiles(pdffileName, true);
             axAcroPDF1.LoadFile("DOESNTEXIST.pdf");
             pdfFileIsChoosen = false;
+            cantChoosePdfFile = false;
             //axAcroPDF1.src = "";
             //MessageBox.Show(axAcroPDF1.src.ToString());
         }
