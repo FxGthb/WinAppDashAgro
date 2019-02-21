@@ -370,8 +370,8 @@ namespace WindowsFormsApp1
             }            
             
             // update product
-            if (imgEXIST || pdfEXIST)
-            {
+            //if (imgEXIST || pdfEXIST)
+            //{
                 Int32 id_cate = (int)listCategories.SelectedValue;
                 String libl = libelleProduit.Text.Trim();
                 String embal = emballageProduit.Text.Trim();
@@ -388,12 +388,12 @@ namespace WindowsFormsApp1
                 database.update(query, list);
                 database.closeconnecion();
                 MessageBox.Show("product updated !");
-            }
+            //}
             //else
             //{
             //    MessageBox.Show("Veuillez choisir l'image et la fiche technique SVP!");
-            //}               
-            
+            //}
+
         }        
 
         private void DeleteFiles(string file, bool isPDF)
@@ -411,6 +411,7 @@ namespace WindowsFormsApp1
                         System.IO.File.Delete(fileName);
                         axAcroPDF1.LoadFile("DOESNTEXIST.pdf");
                         axAcroPDF1.src = null;
+                        cantChoosePdfFile = false;
                     }
                 }
             }
@@ -422,8 +423,11 @@ namespace WindowsFormsApp1
                     if ((System.IO.File.Exists(fileName)))
                     {
                         System.IO.File.Delete(fileName);
-                        DT.Clear();
+                        //DT.Clear();
+                        DT.Dispose();
+                        ///DT = null;
                         dataGridView1.DataSource = DT;
+                        cantChooseImgFile = false;
                     }
 
                 }
@@ -433,7 +437,6 @@ namespace WindowsFormsApp1
 
         private void BtnChoose_Click(object sender, EventArgs e)
         {
-            isCommingFromUpdate :
             if (!cantChooseImgFile)
             {
                 imgFileIsChoosen = true;
@@ -450,6 +453,7 @@ namespace WindowsFormsApp1
                 //string[] files = File.ReadAllLines(path);
                 using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
                 {
+                    openFileDialog1.Filter = "Image files(*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
                     if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         if (!Directory.Exists(saveDirectory))
@@ -490,7 +494,8 @@ namespace WindowsFormsApp1
             }
             else if (commingFromUpdateBtn)
             {
-                goto isCommingFromUpdate;
+                //goto isCommingFromUpdate;
+                MessageBox.Show("Haahahahahah exception");
             }
             else
             {
@@ -549,6 +554,8 @@ namespace WindowsFormsApp1
                 //string[] files = File.ReadAllLines(path);
                 using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
                 {
+                    openFileDialog1.DefaultExt = ".pdf";
+                    openFileDialog1.Filter = "Pdf Files|*.pdf";
                     if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         if (!Directory.Exists(saveDirectory))
@@ -615,6 +622,15 @@ namespace WindowsFormsApp1
             DT.Clear();
             dataGridView1.DataSource = DT;
             if (!commingFromUpdateBtn)
+            {
+                DT.Columns.Remove("Nom");
+                DT.Columns.Remove("Image");
+                DT.Columns.Remove("Data");
+                imgFileIsChoosen = false;
+                cantChooseImgFile = false;
+                commingFromUpdateBtn = false;
+            }
+            else 
             {
                 DT.Columns.Remove("Nom");
                 DT.Columns.Remove("Image");
