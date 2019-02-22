@@ -243,7 +243,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(115, 147);
             this.panel3.TabIndex = 4;
-           
             // 
             // Cancel_btn
             // 
@@ -365,7 +364,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Produit";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Produit";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Produit_Load);

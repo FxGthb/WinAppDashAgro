@@ -24,6 +24,8 @@ namespace WindowsFormsApp1
         Produit formProd = new Produit();
         private List<Object> listobjects = new List<object>();
         private List<Object> listofcontrols = new List<object>();
+        private DataTable DT;
+        private DataTable dt;
 
         public Form1()
         {
@@ -35,6 +37,7 @@ namespace WindowsFormsApp1
         {
             
             drvProduits.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            
             try
             {
                 
@@ -45,7 +48,7 @@ namespace WindowsFormsApp1
                 query = "SELECT [ID_Categorie] ,[Nom_Categorie] ,[Description_Categorie] FROM [dbo].[Categorie]";
                 database.openconnection();
                 listCategories.DataSource = database.getData(query, "Categorie").Tables["Categorie"];
-                listCategories.SelectedIndex = -1;
+                //listCategories.SelectedIndex = -1;
                 query = " SELECT TOP(1000)[ID_Produit]" +
                           " ,c.[Nom_Categorie]" +
                           " ,[Libelle]" +
@@ -67,6 +70,7 @@ namespace WindowsFormsApp1
                 drvProduits.Columns[9].Visible = false;
                 drvProduits.Columns[10].Visible = false;
                 drvProduits.Columns[0].Visible = false;
+                drvProduits.Rows[0].Selected = true;
                 //foreach (DataGridViewRow r in drvProduits.Rows)
                 //{
                 //    DataGridViewLinkCell lc = new DataGridViewLinkCell();
@@ -223,14 +227,16 @@ namespace WindowsFormsApp1
 
         private void listCategories_SelectedIndexChanged(object sender, EventArgs e)
         {
-        //    SqlCommand cmd = con.CreateCommand();
-        //    cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Categorie.ID_Categorie ="+listCategories.SelectedValue;
-        //    if (con.State == ConnectionState.Closed)
-        //        con.Open();
-        //    SqlDataAdapter DA = new SqlDataAdapter(cmd);
-        //    DataTable DT = new DataTable();
-        //    DA.Fill(DT);
-        //    drvProduits.DataSource = DT;
+            //    SqlCommand cmd = con.CreateCommand();
+            //    cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Categorie.ID_Categorie ="+listCategories.SelectedValue;
+            //    if (con.State == ConnectionState.Closed)
+            //        con.Open();
+            //    SqlDataAdapter DA = new SqlDataAdapter(cmd);
+            //    DataTable DT = new DataTable();
+            //    DA.Fill(DT);
+            //    drvProduits.DataSource = DT;
+            facoryMethod("Nom_Categorie", listCategories.Text);
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -276,8 +282,8 @@ namespace WindowsFormsApp1
             //DialogResult result = MessageBox.Show("Do you really want to delete the film \"" + prodName + "\"?", "Confirm product deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             //if (result == DialogResult.Yes)
             //{
-            prodID = int.Parse(drvProduits.CurrentRow.Cells[0].Value.ToString());
-            prodName = drvProduits.CurrentRow.Cells[2].Value.ToString();
+            //prodID = int.Parse(drvProduits.CurrentRow.Cells[0].Value.ToString());
+            //prodName = drvProduits.CurrentRow.Cells[2].Value.ToString();
             //}
         }
 
@@ -321,6 +327,42 @@ namespace WindowsFormsApp1
             formProd.Show();
             formProd.UpdateProd(listofcontrols);           
 
+        }
+
+        private void TxbLibelle_TextChanged(object sender, EventArgs e)
+        {
+            facoryMethod("Libelle", txbLibelle.Text);
+        }
+        private void facoryMethod(string filterFd, string txtBox)
+        {
+            string filterField = filterFd;
+            query = " SELECT TOP(1000)[ID_Produit]" +
+                          " ,c.[Nom_Categorie]" +
+                          " ,[Libelle]" +
+                          " ,[Emballage]" +
+                          " ,[PH]" +
+                          " ,[Description_Produit]" +
+                          " ,[Caracteristiques]" +
+                          " ,i.[Name] as 'Image'" +
+                          " ,PDF.[Name] 'Fiche technique'" +
+                          " ,PDF.FileId as 'pdfID'" +
+                          " ,i.FileId as 'imageID'" +
+                      " FROM[agroV2].[dbo].[Produits] as p" +
+                    " join dbo.Categorie as c on p.ID_Categorie = c.ID_Categorie" +
+                    " join dbo.Images as i on p.img_produit = i.FileId" +
+                    " join dbo.Pdfs as PDF on p.fiche_techniques = PDF.FileId";
+            database.closeconnecion();
+            database.openconnection();
+            DT = dt = database.getData(query, "films").Tables["films"];
+            dt.DefaultView.RowFilter = string.Format("[{0}] LIKE '%{1}%'", filterField, txtBox);
+            database.closeconnecion();
+            drvProduits.DataSource = dt;
+        }
+
+        private void DrvProduits_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            prodID = int.Parse(drvProduits.CurrentRow.Cells[0].Value.ToString());
+            prodName = drvProduits.CurrentRow.Cells[2].Value.ToString();
         }
     }
 }

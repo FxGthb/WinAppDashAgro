@@ -58,10 +58,11 @@
             this.txbLibelle.Name = "txbLibelle";
             this.txbLibelle.Size = new System.Drawing.Size(250, 20);
             this.txbLibelle.TabIndex = 1;
+            this.txbLibelle.TextChanged += new System.EventHandler(this.TxbLibelle_TextChanged);
             // 
             // searchBtn
             // 
-            this.searchBtn.Location = new System.Drawing.Point(568, 180);
+            this.searchBtn.Location = new System.Drawing.Point(169, 171);
             this.searchBtn.Name = "searchBtn";
             this.searchBtn.Size = new System.Drawing.Size(184, 23);
             this.searchBtn.TabIndex = 2;
@@ -74,7 +75,7 @@
             this.listCategories.DataSource = this.categorieBindingSource;
             this.listCategories.DisplayMember = "Nom_Categorie";
             this.listCategories.FormattingEnabled = true;
-            this.listCategories.Location = new System.Drawing.Point(67, 45);
+            this.listCategories.Location = new System.Drawing.Point(67, 54);
             this.listCategories.Name = "listCategories";
             this.listCategories.Size = new System.Drawing.Size(250, 21);
             this.listCategories.TabIndex = 6;
@@ -94,7 +95,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 52);
+            this.label1.Location = new System.Drawing.Point(7, 61);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 13);
             this.label1.TabIndex = 5;
@@ -134,6 +135,7 @@
             this.drvProduits.ReadOnly = true;
             this.drvProduits.Size = new System.Drawing.Size(1026, 322);
             this.drvProduits.TabIndex = 9;
+            this.drvProduits.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DrvProduits_CellContentClick_1);
             this.drvProduits.SelectionChanged += new System.EventHandler(this.DrvProduits_SelectionChanged);
             // 
             // groupBox1
@@ -142,9 +144,9 @@
             this.groupBox1.Controls.Add(this.Libelle);
             this.groupBox1.Controls.Add(this.listCategories);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(28, 21);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(740, 153);
+            this.groupBox1.Size = new System.Drawing.Size(341, 153);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filters";
