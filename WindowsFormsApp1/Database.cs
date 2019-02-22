@@ -74,6 +74,7 @@ namespace WindowsFormsApp1
         //Select statement
         public DataSet getData(string query, string table)
         {
+
             dataSet = new DataSet();
             bindingSource = new BindingSource();
             SqlDataAdapter MyDA = new SqlDataAdapter();

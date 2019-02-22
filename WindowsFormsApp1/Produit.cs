@@ -249,39 +249,48 @@ namespace WindowsFormsApp1
             buttonAjouterProduit.Enabled = true;
             cantChooseImgFile = false;
             cantChoosePdfFile = false;
-            if (ProdName != null)
+
+
+            //if (ProdName != null)
+            //{
+            //    SqlCommand cmd = conn.CreateCommand();
+            //    cmd.CommandText = "Select * from Produits where Libelle ='"+ProdName+"'";
+            //    if (conn.State == ConnectionState.Closed)
+            //        conn.Open();
+            //    SqlDataAdapter DA = new SqlDataAdapter(cmd);
+            //    DataTable DT = new DataTable();
+            //    DA.Fill(DT);
+
+            //}
+            //else
+            //{
+            //comboBox_Statut.SelectedIndex = 0;
+            try
             {
-                SqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "Select * from Produit where Libelle ='"+ProdName+"'";
-                if (conn.State == ConnectionState.Closed)
-                    conn.Open();
-                SqlDataAdapter DA = new SqlDataAdapter(cmd);
-                DataTable DT = new DataTable();
-                DA.Fill(DT);
-                 
-            }
-            else
+                listCategories.DisplayMember = "Nom_Categorie";
+            listCategories.ValueMember = "ID_Categorie";
+            listCategories.SelectedValue = "ID_Categorie";
+            query = "SELECT [ID_Categorie] ,[Nom_Categorie] ,[Description_Categorie] ,[Img_PATH] FROM [Categories]";
+            database.openconnection();
+            listCategories.DataSource = database.getData(query, "Tab_Categories").Tables["Tab_Categories"];
+
+                //SqlCommand cmd = conn.CreateCommand();
+                //cmd.CommandText = query;
+                //SqlDataAdapter TestDA = new SqlDataAdapter(cmd);
+                //DataTable DT = new DataTable();
+                //TestDA.Fill(DT);
+                //listCategories.DataSource = DT;
+                //listCategories.SelectedIndex = -1;
+              }
+            catch (SqlException exception)
             {
-                comboBox_Statut.SelectedIndex = 0;
-                try
-                {
-                    listCategories.DisplayMember = "Nom_Categorie";
-                    listCategories.ValueMember = "ID_Categorie";
-                    listCategories.SelectedValue = "ID_Categorie";
-                    query = "SELECT [ID_Categorie] ,[Nom_Categorie] ,[Description_Categorie] FROM [dbo].[Categorie]";
-                    database.openconnection();
-                    listCategories.DataSource = database.getData(query, "Categorie").Tables["Categorie"];
-                    listCategories.SelectedIndex = -1;
-                }
-                catch (SqlException exception)
-                {
-                    MessageBox.Show(exception.ToString());
-                }
-                finally
-                {
-                    database.closeconnecion();
-                }
+                MessageBox.Show(exception.ToString());
             }
+            finally
+            {
+                database.closeconnecion();
+            }
+            // }
             //Set AutoGenerateColumns False.
             dataGridView1.AutoGenerateColumns = false;
 

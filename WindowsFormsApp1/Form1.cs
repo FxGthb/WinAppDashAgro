@@ -45,9 +45,9 @@ namespace WindowsFormsApp1
                 listCategories.DisplayMember = "Nom_Categorie";
                 listCategories.ValueMember = "ID_Categorie";
                 listCategories.SelectedValue = "ID_Categorie";
-                query = "SELECT [ID_Categorie] ,[Nom_Categorie] ,[Description_Categorie] FROM [dbo].[Categorie]";
+                query = "SELECT [ID_Categorie] ,[Nom_Categorie] ,[Description_Categorie] FROM [Categories]";
                 database.openconnection();
-                listCategories.DataSource = database.getData(query, "Categorie").Tables["Categorie"];
+                listCategories.DataSource = database.getData(query, "Categories").Tables["Categories"];
                 //listCategories.SelectedIndex = -1;
                 query = " SELECT TOP(1000)[ID_Produit]" +
                           " ,c.[Nom_Categorie]" +
@@ -57,11 +57,11 @@ namespace WindowsFormsApp1
                           " ,[Description_Produit]" +
                           " ,[Caracteristiques]" +
                           " ,i.[Name] as 'Image'" +
-                          " ,PDF.[Name] 'Fiche technique'" +
+                          " ,PDF.[Name] as 'Fiche technique'" +
                           " ,PDF.FileId as 'pdfID'" +
                           " ,i.FileId as 'imageID'" +
-                      " FROM[agroV2].[dbo].[Produits] as p" +
-                    " join dbo.Categorie as c on p.ID_Categorie = c.ID_Categorie" +
+                      " FROM [agroV2].[dbo].[Produits] as p" +
+                    " join dbo.Categories as c on p.ID_Categorie = c.ID_Categorie" +
                     " join dbo.Images as i on p.img_produit = i.FileId" +
                     " join dbo.Pdfs as PDF on p.fiche_techniques = PDF.FileId";
                 database.closeconnecion();

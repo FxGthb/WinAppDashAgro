@@ -35,9 +35,9 @@ namespace WindowsFormsApp1
 
         private void listeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2();
-            form2.MdiParent = this;
-            form2.Show();
+            //Form2 form2 = new Form2();
+            //form2.MdiParent = this;
+            //form2.Show();
         }
 
         private void Main_Load(object sender, EventArgs e)
