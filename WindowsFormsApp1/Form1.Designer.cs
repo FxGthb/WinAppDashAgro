@@ -41,7 +41,6 @@
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
             this.drvProduits = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button_PDF = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -66,7 +65,7 @@
             this.searchBtn.Name = "searchBtn";
             this.searchBtn.Size = new System.Drawing.Size(184, 23);
             this.searchBtn.TabIndex = 2;
-            this.searchBtn.Text = "Rechercher";
+            this.searchBtn.Text = "Annuler le filter";
             this.searchBtn.UseVisualStyleBackColor = true;
             this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
             // 
@@ -151,15 +150,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filters";
             // 
-            // button_PDF
-            // 
-            this.button_PDF.Location = new System.Drawing.Point(579, 573);
-            this.button_PDF.Name = "button_PDF";
-            this.button_PDF.Size = new System.Drawing.Size(75, 23);
-            this.button_PDF.TabIndex = 14;
-            this.button_PDF.Text = "PDF";
-            this.button_PDF.UseVisualStyleBackColor = true;
-            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(757, 573);
@@ -195,7 +185,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1050, 624);
-            this.Controls.Add(this.button_PDF);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button4);
@@ -230,7 +219,6 @@
         private AgroPartnersDataSetTableAdapters.CategorieTableAdapter categorieTableAdapter;
         private System.Windows.Forms.DataGridView drvProduits;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button_PDF;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button4;

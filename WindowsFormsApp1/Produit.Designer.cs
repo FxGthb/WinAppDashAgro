@@ -52,7 +52,7 @@
             this.Cancel_btn = new System.Windows.Forms.Button();
             this.buttonUpdateProduit = new System.Windows.Forms.Button();
             this.button_List_Prod = new System.Windows.Forms.Button();
-            this.buttonAjouterProduit = new System.Windows.Forms.Button();
+            this.btn_ADD = new System.Windows.Forms.Button();
             this.categorieTableAdapter = new WindowsFormsApp1.AgroPartnersDataSetTableAdapters.CategorieTableAdapter();
             this.btnChoose = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -238,7 +238,7 @@
             this.panel3.Controls.Add(this.Cancel_btn);
             this.panel3.Controls.Add(this.buttonUpdateProduit);
             this.panel3.Controls.Add(this.button_List_Prod);
-            this.panel3.Controls.Add(this.buttonAjouterProduit);
+            this.panel3.Controls.Add(this.btn_ADD);
             this.panel3.Location = new System.Drawing.Point(636, 340);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(115, 147);
@@ -274,15 +274,15 @@
             this.button_List_Prod.UseVisualStyleBackColor = true;
             this.button_List_Prod.Click += new System.EventHandler(this.button1_Click);
             // 
-            // buttonAjouterProduit
+            // btn_ADD
             // 
-            this.buttonAjouterProduit.Location = new System.Drawing.Point(20, 15);
-            this.buttonAjouterProduit.Name = "buttonAjouterProduit";
-            this.buttonAjouterProduit.Size = new System.Drawing.Size(75, 23);
-            this.buttonAjouterProduit.TabIndex = 0;
-            this.buttonAjouterProduit.Text = "Ajouter";
-            this.buttonAjouterProduit.UseVisualStyleBackColor = true;
-            this.buttonAjouterProduit.Click += new System.EventHandler(this.buttonAjouterProduit_Click);
+            this.btn_ADD.Location = new System.Drawing.Point(20, 15);
+            this.btn_ADD.Name = "btn_ADD";
+            this.btn_ADD.Size = new System.Drawing.Size(75, 23);
+            this.btn_ADD.TabIndex = 0;
+            this.btn_ADD.Text = "Ajouter";
+            this.btn_ADD.UseVisualStyleBackColor = true;
+            this.btn_ADD.Click += new System.EventHandler(this.buttonAjouterProduit_Click);
             // 
             // categorieTableAdapter
             // 
@@ -398,7 +398,7 @@
         private System.Windows.Forms.TextBox carateristiqueProduit;
         private System.Windows.Forms.TextBox descriptionProduit;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button buttonAjouterProduit;
+        private System.Windows.Forms.Button btn_ADD;
         private AgroPartnersDataSet agroPartnersDataSet;
         private System.Windows.Forms.BindingSource categorieBindingSource;
         private AgroPartnersDataSetTableAdapters.CategorieTableAdapter categorieTableAdapter;

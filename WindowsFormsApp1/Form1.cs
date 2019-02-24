@@ -35,7 +35,10 @@ namespace WindowsFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            SqlCommand cmd = con.CreateCommand();
+            SqlDataAdapter DA = new SqlDataAdapter(cmd);
+            DataTable DT = new DataTable();
+
             drvProduits.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             
             try
@@ -46,31 +49,15 @@ namespace WindowsFormsApp1
                 listCategories.ValueMember = "ID_Categorie";
                 listCategories.SelectedValue = "ID_Categorie";
                 query = "SELECT [ID_Categorie] ,[Nom_Categorie] ,[Description_Categorie] FROM [Categories]";
-                database.openconnection();
-                listCategories.DataSource = database.getData(query, "Categories").Tables["Categories"];
+                cmd.CommandText = query;
+                DA = new SqlDataAdapter(cmd);
+                DT = new DataTable();
+                DA.Fill(DT);
+                listCategories.DataSource = DT;
+                //database.openconnection();
+                // listCategories.DataSource = database.getData(query, "Categories").Tables["Categories"];
                 //listCategories.SelectedIndex = -1;
-                query = " SELECT TOP(1000)[ID_Produit]" +
-                          " ,c.[Nom_Categorie]" +
-                          " ,[Libelle]" +
-                          " ,[Emballage]" +
-                          " ,[PH]" +
-                          " ,[Description_Produit]" +
-                          " ,[Caracteristiques]" +
-                          " ,i.[Name] as 'Image'" +
-                          " ,PDF.[Name] as 'Fiche technique'" +
-                          " ,PDF.FileId as 'pdfID'" +
-                          " ,i.FileId as 'imageID'" +
-                      " FROM [agroV2].[dbo].[Produits] as p" +
-                    " join dbo.Categories as c on p.ID_Categorie = c.ID_Categorie" +
-                    " join dbo.Images as i on p.img_produit = i.FileId" +
-                    " join dbo.Pdfs as PDF on p.fiche_techniques = PDF.FileId";
-                database.closeconnecion();
-                database.openconnection();
-                drvProduits.DataSource = database.getData(query, "Produits").Tables["Produits"];
-                drvProduits.Columns[9].Visible = false;
-                drvProduits.Columns[10].Visible = false;
-                drvProduits.Columns[0].Visible = false;
-                drvProduits.Rows[0].Selected = true;
+                getProducts();
                 //foreach (DataGridViewRow r in drvProduits.Rows)
                 //{
                 //    DataGridViewLinkCell lc = new DataGridViewLinkCell();
@@ -96,6 +83,42 @@ namespace WindowsFormsApp1
                 database.closeconnecion();
             }
         }
+
+        private void getProducts()
+        {
+            SqlCommand cmd = con.CreateCommand();
+            SqlDataAdapter DA = new SqlDataAdapter(cmd);
+            DataTable DT = new DataTable();
+            query = " SELECT TOP(1000)[ID_Produit]" +
+                              " ,c.[Nom_Categorie]" +
+                              " ,[Libelle]" +
+                              " ,[Emballage]" +
+                              " ,[PH]" +
+                              " ,[Description_Produit]" +
+                              " ,[Caracteristiques]" +
+                              " ,i.[Name] as 'Image'" +
+                              " ,PDF.[Name] as 'Fiche technique'" +
+                              " ,PDF.FileId as 'pdfID'" +
+                              " ,i.FileId as 'imageID'" +
+                          " FROM [Produits] as p" +
+                        " join Categories as c on p.ID_Categorie = c.ID_Categorie" +
+                        " join Images as i on p.img_produit = i.FileId" +
+                        " join Pdfs as PDF on p.fiche_techniques = PDF.FileId";
+            // SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = query;
+            DA = new SqlDataAdapter(cmd);
+            DT = new DataTable();
+            DA.Fill(DT);
+            drvProduits.DataSource = DT;
+            //database.closeconnecion();
+            //database.openconnection();
+            //drvProduits.DataSource = database.getData(query, "Produits").Tables["Produits"];
+            drvProduits.Columns[9].Visible = false;
+            drvProduits.Columns[10].Visible = false;
+            drvProduits.Columns[0].Visible = false;
+            drvProduits.Rows[0].Selected = true;
+        }
+
         private void drvProduits_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             //if (e.RowIndex == -1)
@@ -117,15 +140,7 @@ namespace WindowsFormsApp1
         }
         private void searchBtn_Click(object sender, EventArgs e)
         {
-            SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit"+
-                                " join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Produit.Libelle Like '%" + txbLibelle.Text + "%'";
-            if (con.State == ConnectionState.Closed)
-                con.Open();
-            SqlDataAdapter DA = new SqlDataAdapter(cmd);
-            DataTable DT = new DataTable();
-            DA.Fill(DT);
-            drvProduits.DataSource = DT;
+          
         }
 
         private void drvProduits_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -133,57 +148,7 @@ namespace WindowsFormsApp1
 
         }
 
-        private void button_PDF_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if(txbLibelle.Text != "")
-                {
-                    SqlCommand cmd = con.CreateCommand();
-                    cmd.CommandText = "Select fiche_techniques from Produit where Produit.Libelle ='" + txbLibelle.Text + "'";
-                    if (con.State == ConnectionState.Closed)
-                        con.Open();
-                    SqlDataAdapter DA = new SqlDataAdapter(cmd);
-                    DataTable DT = new DataTable();
-                    DA.Fill(DT);
-                    if(DT.Rows.Count != 0)
-                    {
-                        binaryData = (byte[])DT.Rows[0][0];
-                        //File.WriteAllBytes("Test.txt", binaryData);
-
-                        using (StreamWriter sw = new StreamWriter($"{txbLibelle.Text}.pdf"))
-                        {
-                            BinaryWriter bw = new BinaryWriter(sw.BaseStream);
-                            bw.Write(binaryData);
-                        }
-                        //axAcroPDF1.src = "testpdf.pdf";
-                        Form_PDF_Viewer form_pdf_Viewer = new Form_PDF_Viewer(txbLibelle.Text);
-                        form_pdf_Viewer.Show();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Aucune fiche technique n'a ete trouvée");
-                    }   
-
-                    //PdfDocument doc = new PdfDocument();
-                    //doc.LoadFromBytes(binaryData);
-                    //doc.SaveToFile("File.pdf");
-                }
-                else
-                {
-                    MessageBox.Show("Please insert a Prod name");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Une erreur c'est produite lors du chargement du fichier PDF.\nPlus de details : \n"+ex.Message);
-            }
-            finally
-            {
-                con.Close();
-            }
-        }
+        
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -275,6 +240,24 @@ namespace WindowsFormsApp1
             //database.delete(query, listobjects);
             //database.closeconnecion();
             //MessageBox.Show("deleted with success !");
+            prodID = int.Parse(drvProduits.CurrentRow.Cells[0].Value.ToString());
+            prodName = drvProduits.CurrentRow.Cells[2].Value.ToString();
+            DialogResult result = MessageBox.Show("ete vous sur de supprimer ce produit : \"" + prodName + "\"?", "Confirm product deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                query = "DELETE FROM [dbo].[Produits] WHERE Produits.ID_Produit =@1";
+                listobjects.Clear();
+                listobjects.Add(prodID);
+                database.openconnection();
+                database.delete(query, listobjects);
+                database.closeconnecion();
+                MessageBox.Show("deleted with success !");
+                
+                string imgFile = drvProduits.CurrentRow.Cells[7].Value.ToString();
+                string pdfFile = drvProduits.CurrentRow.Cells[8].Value.ToString();
+                DeleteFiles(imgFile, pdfFile);
+                getProducts();
+            }
         }
 
         private void DrvProduits_SelectionChanged(object sender, EventArgs e)
@@ -348,12 +331,12 @@ namespace WindowsFormsApp1
                           " ,PDF.FileId as 'pdfID'" +
                           " ,i.FileId as 'imageID'" +
                       " FROM[agroV2].[dbo].[Produits] as p" +
-                    " join dbo.Categorie as c on p.ID_Categorie = c.ID_Categorie" +
+                    " join dbo.Categories as c on p.ID_Categorie = c.ID_Categorie" +
                     " join dbo.Images as i on p.img_produit = i.FileId" +
                     " join dbo.Pdfs as PDF on p.fiche_techniques = PDF.FileId";
             database.closeconnecion();
             database.openconnection();
-            DT = dt = database.getData(query, "films").Tables["films"];
+            DT = dt = database.getData(query, "Produits").Tables["Produits"];
             dt.DefaultView.RowFilter = string.Format("[{0}] LIKE '%{1}%'", filterField, txtBox);
             database.closeconnecion();
             drvProduits.DataSource = dt;
@@ -364,5 +347,32 @@ namespace WindowsFormsApp1
             prodID = int.Parse(drvProduits.CurrentRow.Cells[0].Value.ToString());
             prodName = drvProduits.CurrentRow.Cells[2].Value.ToString();
         }
+
+        private void DeleteFiles(string imgFile, string pdfFile)
+        {
+            string cell = null;
+            string fileName = null;
+            // full path required
+            cell = pdfFile;
+            fileName = (@"..\..\Files\Pdfs\" + cell);
+            if (fileName != null || fileName != string.Empty)
+            {
+                if ((System.IO.File.Exists(fileName)))
+                {
+                    System.IO.File.Delete(fileName);                      
+                }
+            }
+            cell = imgFile;
+            fileName = (@"..\..\Files\Images\" + cell);
+            if (fileName != null || fileName != string.Empty)
+            {
+                if ((System.IO.File.Exists(fileName)))
+                {
+                    System.IO.File.Delete(fileName);                       
+                }
+            }
+            
+        }
+
     }
 }

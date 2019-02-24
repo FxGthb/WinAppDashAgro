@@ -52,201 +52,15 @@ namespace WindowsFormsApp1
             InitializeComponent();
             ProdName = Prod;
         }
-
-        public void UpdateProd(List<Object> listofcontrols)
-        {
-            buttonUpdateProduit.Enabled = true;
-            buttonAjouterProduit.Enabled = false;
-            commingFromUpdateBtn = true;
-            int index;
-            idPro = int.Parse(listofcontrols[0].ToString());
-            libelleProduit.Text = listofcontrols[2].ToString();
-            emballageProduit.Text = listofcontrols[3].ToString();
-            phProduit.Text = listofcontrols[4].ToString();
-            descriptionProduit.Text = listofcontrols[5].ToString();
-            imageID = int.Parse(listofcontrols[7].ToString());
-            pdfID = int.Parse(listofcontrols[8].ToString());
-            imageName = listofcontrols[9].ToString();
-            pdfName = listofcontrols[10].ToString();
-            carateristiqueProduit.Text = listofcontrols[6].ToString();
-            index = listCategories.FindString(listofcontrols[1].ToString());
-            listCategories.SelectedIndex = index;
-            //get image 
-             using (SqlDataAdapter sda = new SqlDataAdapter("SELECT i.FileId, i.Name, i.Path FROM[agroV2].[dbo].[Images] as i" +
-                        " join dbo.Produits as p on i.FileId = p.img_produit where p.ID_Produit = '"+idPro+"'", conn))
-             {
-                    DataTable dt = new DataTable();
-                    sda.Fill(dt);
-
-                    //Add a new Byte[] Column.
-                    dt.Columns.Add("Data", Type.GetType("System.Byte[]"));
-
-                    //Convert all Images to Byte[] and copy to DataTable.
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        row["Data"] = File.ReadAllBytes(row["Path"].ToString());
-                    }
-
-                    dataGridView1.DataSource = dt;
-                dataGridView1.Rows[0].Cells[0].Value = dt.Rows[0][1];
-             }
-            //get pdf
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT pdf.FileId, pdf.Name, pdf.Path FROM[agroV2].[dbo].[Pdfs] as pdf" +
-                       " join dbo.Produits as p on pdf.FileId = p.img_produit where p.ID_Produit = '" + idPro + "'", conn))
-            {
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-
-                //Add a new Byte[] Column.
-                dt.Columns.Add("Data", Type.GetType("System.Byte[]"));
-
-                //Convert all Images to Byte[] and copy to DataTable.
-                foreach (DataRow row in dt.Rows)
-                {
-                    row["Data"] = File.ReadAllBytes(row["Path"].ToString());
-                }
-
-                axAcroPDF1.LoadFile( dt.Rows[0][2].ToString());
-                //dataGridView1.Rows[0].Cells[0].Value = dt.Rows[0][1];
-            }
-
-
-        }
-
-        private void buttonAjouterProduit_Click(object sender, EventArgs e)
-        {
-            int imgID = 0;
-            int pdfID = 0;
-            try
-            {
-                //Int32 id_cate = (int)listCategories.SelectedValue;
-                //String libl = libelleProduit.Text.Trim();
-                //String embal = emballageProduit.Text.Trim();
-                //String ph = phProduit.Text.Trim();
-                //String desc = descriptionProduit.Text.Trim();
-                //String carac = carateristiqueProduit.Text.Trim();
-                //String title_image = txtImgTitle.Text.Trim();
-                //String title_pdf = txtPDFTitle.Text.Trim();
-               
-                //insert image produit
-                if (DT.Rows.Count > 0)
-                {
-                    query = "INSERT INTO [dbo].[Images] ([Name],[Path]) VALUES (@1,@2)";
-                    list.Clear();
-                    list.Add(Path.GetFileName(fileName));
-                    list.Add(fileSavePath);
-                    database.openconnection();
-                    database.insert(query, list);
-                    database.closeconnecion();
-                    MessageBox.Show("image Added !!");
-
-                    //get image id
-                    query = "SELECT MAX(FileId) as 'imgID' FROM Images";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        
-                        conn.Open();
-                        imgID = Convert.ToInt32(cmd.ExecuteScalar());
-                        conn.Close();
-                    }
-                }
-                else MessageBox.Show("please choose product image !");
-
-                if (axAcroPDF1.src != null)
-                {
-                    query = "INSERT INTO [dbo].[Pdfs] ([Name],[Path]) VALUES (@1,@2)";
-                    list.Clear();
-                    list.Add(Path.GetFileName(pdffileName));
-                    list.Add(pdffileSavePath);
-                    database.openconnection();
-                    database.insert(query, list);
-                    MessageBox.Show("pdf Added !!");
-                    database.closeconnecion();
-
-                    //get pdf id
-                    query = "SELECT MAX(FileId) as 'pdfID' FROM Pdfs";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-
-                        conn.Open();
-                        pdfID = Convert.ToInt32(cmd.ExecuteScalar());
-                        conn.Close();
-                    }
-                }
-                else MessageBox.Show("please choose product pdf !");
-
-                if (imgID !=0 && pdfID != 0)
-                {
-                    query = "INSERT INTO[dbo].[Produits]" +
-                           " ([ID_Categorie]" +
-                           " ,[Libelle]" +
-                           " ,[Emballage]" +
-                           " ,[PH]" +
-                           " ,[Description_Produit]" +
-                           " ,[Caracteristiques]" +
-                           " ,[img_produit]" +
-                           " ,[fiche_techniques])" +
-                     " VALUES(@1,@2,@3,@4,@5,@6,@7,@8)";
-                    Int32 id_cate = (int)listCategories.SelectedValue;
-                    String libl = libelleProduit.Text.Trim();
-                    String embal = emballageProduit.Text.Trim();
-                    String ph = phProduit.Text.Trim();
-                    String desc = descriptionProduit.Text.Trim();
-                    String carac = carateristiqueProduit.Text.Trim();
-                    list.Clear();
-                    list.Add(id_cate);
-                    list.Add(libl);
-                    list.Add(embal);
-                    list.Add(ph);
-                    list.Add(desc);
-                    list.Add(carac);
-                    list.Add(imgID);
-                    list.Add(pdfID);
-                    
-                    database.openconnection();
-                    database.insert(query, list);
-                    MessageBox.Show("product Added !!");
-                    database.closeconnecion();
-                    DT.Clear();
-                    axAcroPDF1.LoadFile("DOESNTEXIST.pdf");
-                    axAcroPDF1.src = null;
-                    listCategories.SelectedIndex = -1;
-                }
-
-            }
-            catch (SqlException exception)
-            {
-                MessageBox.Show("On a pas pu ajouter le produit.Erreur details :\n"+exception.ToString(),"Echec d'insertion",MessageBoxButtons.OKCancel,MessageBoxIcon.Error);
-            }
-            finally
-            {
-                database.closeconnecion();
-                list.Clear();
-                listparam.Clear();
-                void ClearTextBoxes(Control parent)
-                {
-                    foreach (Control child in parent.Controls)
-                    {
-                        TextBox textBox = child as TextBox;
-                        if (textBox == null)
-                            ClearTextBoxes(child);
-                        else
-                            textBox.Text = string.Empty;
-                    } 
-                } 
-                ClearTextBoxes(this);
-            }
-            #region add new product proccess
-           
-        }
-        #endregion
-        #region formLOAD
+       
         private void Produit_Load(object sender, EventArgs e)
         {
+            button2.Enabled = false;
+            button3.Enabled = false;
             imgFileIsChoosen = false;
             pdfFileIsChoosen = false;
             buttonUpdateProduit.Enabled = false;
-            buttonAjouterProduit.Enabled = true;
+            btn_ADD.Enabled = true;
             cantChooseImgFile = false;
             cantChoosePdfFile = false;
 
@@ -321,10 +135,203 @@ namespace WindowsFormsApp1
             //this.BindDataGridView();
 
         }
-        #endregion
-        
 
-      
+
+        public void UpdateProd(List<Object> listofcontrols)
+        {
+            buttonUpdateProduit.Enabled = true;
+            btn_ADD.Enabled = false;
+            commingFromUpdateBtn = true;
+            int index;
+            idPro = int.Parse(listofcontrols[0].ToString());
+            libelleProduit.Text = listofcontrols[2].ToString();
+            emballageProduit.Text = listofcontrols[3].ToString();
+            phProduit.Text = listofcontrols[4].ToString();
+            descriptionProduit.Text = listofcontrols[5].ToString();
+            imageID = int.Parse(listofcontrols[7].ToString());
+            pdfID = int.Parse(listofcontrols[8].ToString());
+            imageName = listofcontrols[9].ToString();
+            pdfName = listofcontrols[10].ToString();
+            carateristiqueProduit.Text = listofcontrols[6].ToString();
+            index = listCategories.FindString(listofcontrols[1].ToString());
+            listCategories.SelectedIndex = index;
+            //get image 
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT i.FileId, i.Name, i.Path FROM [agroV2].[dbo].[Images] as i" +
+                       " join dbo.Produits as p on i.FileId = p.img_produit where p.ID_Produit = '" + idPro + "'", conn))
+            {
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+
+                //Add a new Byte[] Column.
+                dt.Columns.Add("Data", Type.GetType("System.Byte[]"));
+
+                //Convert all Images to Byte[] and copy to DataTable.
+                foreach (DataRow row in dt.Rows)
+                {
+                    row["Data"] = File.ReadAllBytes(row["Path"].ToString());
+                }
+
+                dataGridView1.DataSource = dt;
+                dataGridView1.Rows[0].Cells[0].Value = dt.Rows[0][1];
+            }
+            //get pdf
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT pdf.FileId, pdf.Name, pdf.Path FROM [agroV2].[dbo].[Pdfs] as pdf" +
+                       " join dbo.Produits as p on pdf.FileId = p.img_produit where p.ID_Produit = '" + idPro + "'", conn))
+            {
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+
+                //Add a new Byte[] Column.
+                dt.Columns.Add("Data", Type.GetType("System.Byte[]"));
+
+                //Convert all Images to Byte[] and copy to DataTable.
+                foreach (DataRow row in dt.Rows)
+                {
+                    row["Data"] = File.ReadAllBytes(row["Path"].ToString());
+                }
+
+                axAcroPDF1.LoadFile(dt.Rows[0][2].ToString());
+                //dataGridView1.Rows[0].Cells[0].Value = dt.Rows[0][1];
+            }
+
+
+        }
+
+        private void buttonAjouterProduit_Click(object sender, EventArgs e)
+        {
+            int imgID = 0;
+            int pdfID = 0;
+            try
+            {
+                //Int32 id_cate = (int)listCategories.SelectedValue;
+                //String libl = libelleProduit.Text.Trim();
+                //String embal = emballageProduit.Text.Trim();
+                //String ph = phProduit.Text.Trim();
+                //String desc = descriptionProduit.Text.Trim();
+                //String carac = carateristiqueProduit.Text.Trim();
+                //String title_image = txtImgTitle.Text.Trim();
+                //String title_pdf = txtPDFTitle.Text.Trim();
+
+                //insert image produit
+                if (DT.Rows.Count > 0)
+                {
+                    query = "INSERT INTO [dbo].[Images] ([Name],[Path]) VALUES (@1,@2)";
+                    list.Clear();
+                    list.Add(Path.GetFileName(fileName));
+                    list.Add(fileSavePath);
+                    database.openconnection();
+                    database.insert(query, list);
+                    database.closeconnecion();
+                    MessageBox.Show("image Added !!");
+
+                    //get image id
+                    query = "SELECT MAX(FileId) as 'imgID' FROM Images";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+
+                        conn.Open();
+                        imgID = Convert.ToInt32(cmd.ExecuteScalar());
+                        conn.Close();
+                    }
+                }
+                else MessageBox.Show("please choose product image !");
+
+                if (axAcroPDF1.src != null)
+                {
+                    query = "INSERT INTO [dbo].[Pdfs] ([Name],[Path]) VALUES (@1,@2)";
+                    list.Clear();
+                    list.Add(Path.GetFileName(pdffileName));
+                    list.Add(pdffileSavePath);
+                    database.openconnection();
+                    database.insert(query, list);
+                    MessageBox.Show("pdf Added !!");
+                    database.closeconnecion();
+
+                    //get pdf id
+                    query = "SELECT MAX(FileId) as 'pdfID' FROM Pdfs";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+
+                        conn.Open();
+                        pdfID = Convert.ToInt32(cmd.ExecuteScalar());
+                        conn.Close();
+                    }
+                }
+                else MessageBox.Show("please choose product pdf !");
+
+                if (imgID != 0 && pdfID != 0)
+                {
+                    query = "INSERT INTO[dbo].[Produits]" +
+                           " ([ID_Categorie]" +
+                           " ,[Libelle]" +
+                           " ,[Emballage]" +
+                           " ,[PH]" +
+                           " ,[Description_Produit]" +
+                           " ,[Caracteristiques]" +
+                           " ,[img_produit]" +
+                           " ,[fiche_techniques])" +
+                     " VALUES(@1,@2,@3,@4,@5,@6,@7,@8)";
+                    Int32 id_cate = (int)listCategories.SelectedValue;
+                    String libl = libelleProduit.Text.Trim();
+                    String embal = emballageProduit.Text.Trim();
+                    String ph = phProduit.Text.Trim();
+                    String desc = descriptionProduit.Text.Trim();
+                    String carac = carateristiqueProduit.Text.Trim();
+                    list.Clear();
+                    list.Add(id_cate);
+                    list.Add(libl);
+                    list.Add(embal);
+                    list.Add(ph);
+                    list.Add(desc);
+                    list.Add(carac);
+                    list.Add(imgID);
+                    list.Add(pdfID);
+
+                    database.openconnection();
+                    database.insert(query, list);
+                    MessageBox.Show("product Added !!");
+                    database.closeconnecion();
+                    //DT.Clear();
+                    axAcroPDF1.LoadFile("DOESNTEXIST.pdf");
+                    axAcroPDF1.src = null;
+                    listCategories.SelectedIndex = -1;
+                }
+
+            }
+            catch (SqlException exception)
+            {
+                MessageBox.Show("On a pas pu ajouter le produit.Erreur details :\n" + exception.ToString(), "Echec d'insertion", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                database.closeconnecion();
+                list.Clear();
+                listparam.Clear();
+                void ClearTextBoxes(Control parent)
+                {
+                    foreach (Control child in parent.Controls)
+                    {
+                        TextBox textBox = child as TextBox;
+                        if (textBox == null)
+                            ClearTextBoxes(child);
+                        else
+                            textBox.Text = string.Empty;
+                    }
+                }
+                ClearTextBoxes(this);
+                cantChooseImgFile = false;
+                cantChoosePdfFile = false;
+                if (dataGridView1.Rows.Count > 0)
+                {
+                    Button2_Click(sender, e);
+                }
+                
+            }
+            #region add new product proccess
+
+        }
+        #endregion
+
         private void button1_Click(object sender, EventArgs e)
         {
             Form1 form1 = new Form1();
@@ -448,11 +455,7 @@ namespace WindowsFormsApp1
         {
             if (!cantChooseImgFile)
             {
-                imgFileIsChoosen = true;
-                DT.Clear();
-                dataGridView1.DataSource = DT;
-                DT.Columns.Add("Nom");
-                DT.Columns.Add("Image");
+                
                 //DT.Rows.Add(new object[] { "Ravi", 500 });
 
                 //string saveDirectory = @"C:\Users\DELL LATITUDE E5480\Desktop\DataGridView_Image_Path_Database\SavedImages\";
@@ -473,7 +476,11 @@ namespace WindowsFormsApp1
                         fileName = Path.GetFileName(openFileDialog1.FileName);
                         fileSavePath = Path.Combine(saveDirectory, fileName);
                         File.Copy(openFileDialog1.FileName, fileSavePath, true);
-
+                        DT.Clear();
+                        dataGridView1.DataSource = DT;
+                        DT.Columns.Add("Nom");
+                        DT.Columns.Add("Image");
+                        DT.Columns.Add("Data", Type.GetType("System.Byte[]"));
                         DT.Rows.Add(new object[] { Path.GetFileName(fileName), fileSavePath });
                         //string constr = "Data Source=.;Initial Catalog=master;Integrated Security=True";
                         //using (SqlConnection conn = new SqlConnection(constr))
@@ -488,7 +495,8 @@ namespace WindowsFormsApp1
                         //        conn.Close();
                         //    }
                         //}
-                        DT.Columns.Add("Data", Type.GetType("System.Byte[]"));
+                        imgFileIsChoosen = true;
+                        
 
                         //Convert all Images to Byte[] and copy to DataTable.
                         foreach (DataRow row in DT.Rows)
@@ -497,7 +505,12 @@ namespace WindowsFormsApp1
                         }
                         dataGridView1.DataSource = DT;
                         cantChooseImgFile = true;
+                        button2.Enabled = true;
                         // this.BindDataGridView();
+                    }
+                    else
+                    {
+                        MessageBox.Show("vous n'avez pas choisi une image");
                     }
                 }
             }
@@ -550,7 +563,7 @@ namespace WindowsFormsApp1
         {
             if (!cantChoosePdfFile)
             {
-                pdfFileIsChoosen = true;
+                
                 //DT.Clear();
                 //DT.Columns.Add("Nom");
                 //DT.Columns.Add("Image");
@@ -578,6 +591,8 @@ namespace WindowsFormsApp1
 
                         axAcroPDF1.src = openFileDialog1.FileName;
                         cantChoosePdfFile = true;
+                        pdfFileIsChoosen = true;
+                        button3.Enabled = true;
                         //DT.Rows.Add(new object[] { Path.GetFileName(fileName), fileSavePath });
                         //string constr = "Data Source=.;Initial Catalog=master;Integrated Security=True";
                         //using (SqlConnection conn = new SqlConnection(constr))
@@ -601,6 +616,10 @@ namespace WindowsFormsApp1
                         //}
                         //dataGridView1.DataSource = DT;
                         // this.BindDataGridView();
+                    }
+                    else
+                    {
+                        MessageBox.Show("vous n'avez pas choisi la fiche technique");
                     }
                 }
                 
@@ -627,10 +646,14 @@ namespace WindowsFormsApp1
             //    }
 
             //}
-            DeleteFiles(dataGridView1.Rows[0].Cells[0].Value.ToString(), false);
+            if (dataGridView1.Rows.Count>0)
+            {
+                DeleteFiles(dataGridView1.Rows[0].Cells[0].Value.ToString(), false);
+            }
+            
             DT.Clear();
             dataGridView1.DataSource = DT;
-            if (!commingFromUpdateBtn)
+            if (!commingFromUpdateBtn && dataGridView1.Rows.Count > 0)
             {
                 DT.Columns.Remove("Nom");
                 DT.Columns.Remove("Image");
