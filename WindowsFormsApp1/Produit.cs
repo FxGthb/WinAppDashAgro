@@ -174,25 +174,29 @@ namespace WindowsFormsApp1
                 dataGridView1.DataSource = dt;
                 dataGridView1.Rows[0].Cells[0].Value = dt.Rows[0][1];
             }
+
             //get pdf
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT pdf.FileId, pdf.Name, pdf.Path FROM [agroV2].[dbo].[Pdfs] as pdf" +
-                       " join dbo.Produits as p on pdf.FileId = p.img_produit where p.ID_Produit = '" + idPro + "'", conn))
+            if (pdfID != 0)
             {
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-
-                //Add a new Byte[] Column.
-                dt.Columns.Add("Data", Type.GetType("System.Byte[]"));
-
-                //Convert all Images to Byte[] and copy to DataTable.
-                foreach (DataRow row in dt.Rows)
+                using (SqlDataAdapter sda = new SqlDataAdapter("SELECT pdf.FileId, pdf.Name, pdf.Path FROM [agroV2].[dbo].[Pdfs] as pdf" +
+                       " join dbo.Produits as p on pdf.FileId = p.fiche_techniques where p.ID_Produit = '" + idPro + "'", conn))
                 {
-                    row["Data"] = File.ReadAllBytes(row["Path"].ToString());
-                }
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
 
-                axAcroPDF1.LoadFile(dt.Rows[0][2].ToString());
-                //dataGridView1.Rows[0].Cells[0].Value = dt.Rows[0][1];
-            }
+                    //Add a new Byte[] Column.
+                    dt.Columns.Add("Data", Type.GetType("System.Byte[]"));
+
+                    //Convert all Images to Byte[] and copy to DataTable.
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        row["Data"] = File.ReadAllBytes(row["Path"].ToString());
+                    }
+
+                    axAcroPDF1.LoadFile(dt.Rows[0][2].ToString());
+                    //dataGridView1.Rows[0].Cells[0].Value = dt.Rows[0][1];
+                }
+            }          
 
 
         }
@@ -201,6 +205,7 @@ namespace WindowsFormsApp1
         {
             int imgID = 0;
             int pdfID = 0;
+            bool noPDF = true;
             try
             {
                 //Int32 id_cate = (int)listCategories.SelectedValue;
@@ -234,9 +239,9 @@ namespace WindowsFormsApp1
                         conn.Close();
                     }
                 }
-                else MessageBox.Show("please choose product image !");
+                else MessageBox.Show("Veuillez choisir une image !");
 
-                if (axAcroPDF1.src != null)
+                if (!axAcroPDF1.src.Equals("DOESNTEXIST.pdf"))
                 {
                     query = "INSERT INTO [dbo].[Pdfs] ([Name],[Path]) VALUES (@1,@2)";
                     list.Clear();
@@ -246,22 +251,49 @@ namespace WindowsFormsApp1
                     database.insert(query, list);
                     MessageBox.Show("pdf Added !!");
                     database.closeconnecion();
-
+                    noPDF = false;
                     //get pdf id
                     query = "SELECT MAX(FileId) as 'pdfID' FROM Pdfs";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-
                         conn.Open();
                         pdfID = Convert.ToInt32(cmd.ExecuteScalar());
                         conn.Close();
                     }
                 }
-                else MessageBox.Show("please choose product pdf !");
 
-                if (imgID != 0 && pdfID != 0)
+                if (imgID != 0)
                 {
-                    query = "INSERT INTO[dbo].[Produits]" +
+                    if (noPDF)
+                    {
+                        query = "INSERT INTO[dbo].[Produits]" +
+                          " ([ID_Categorie]" +
+                          " ,[Libelle]" +
+                          " ,[Emballage]" +
+                          " ,[PH]" +
+                          " ,[Description_Produit]" +
+                          " ,[Caracteristiques]" +
+                          " ,[img_produit]" +
+                          " ,[fiche_techniques])" +
+                          " VALUES(@1,@2,@3,@4,@5,@6,@7,null)";
+                        Int32 id_cate = (int)listCategories.SelectedValue;
+                        String libl = libelleProduit.Text.Trim();
+                        String embal = emballageProduit.Text.Trim();
+                        String ph = phProduit.Text.Trim();
+                        String desc = descriptionProduit.Text.Trim();
+                        String carac = carateristiqueProduit.Text.Trim();
+                        list.Clear();
+                        list.Add(id_cate);
+                        list.Add(libl);
+                        list.Add(embal);
+                        list.Add(ph);
+                        list.Add(desc);
+                        list.Add(carac);
+                        list.Add(imgID);
+                    }
+                    else
+                    {
+                        query = "INSERT INTO[dbo].[Produits]" +
                            " ([ID_Categorie]" +
                            " ,[Libelle]" +
                            " ,[Emballage]" +
@@ -270,23 +302,23 @@ namespace WindowsFormsApp1
                            " ,[Caracteristiques]" +
                            " ,[img_produit]" +
                            " ,[fiche_techniques])" +
-                     " VALUES(@1,@2,@3,@4,@5,@6,@7,@8)";
-                    Int32 id_cate = (int)listCategories.SelectedValue;
-                    String libl = libelleProduit.Text.Trim();
-                    String embal = emballageProduit.Text.Trim();
-                    String ph = phProduit.Text.Trim();
-                    String desc = descriptionProduit.Text.Trim();
-                    String carac = carateristiqueProduit.Text.Trim();
-                    list.Clear();
-                    list.Add(id_cate);
-                    list.Add(libl);
-                    list.Add(embal);
-                    list.Add(ph);
-                    list.Add(desc);
-                    list.Add(carac);
-                    list.Add(imgID);
-                    list.Add(pdfID);
-
+                           " VALUES(@1,@2,@3,@4,@5,@6,@7,@8)";
+                        Int32 id_cate = (int)listCategories.SelectedValue;
+                        String libl = libelleProduit.Text.Trim();
+                        String embal = emballageProduit.Text.Trim();
+                        String ph = phProduit.Text.Trim();
+                        String desc = descriptionProduit.Text.Trim();
+                        String carac = carateristiqueProduit.Text.Trim();
+                        list.Clear();
+                        list.Add(id_cate);
+                        list.Add(libl);
+                        list.Add(embal);
+                        list.Add(ph);
+                        list.Add(desc);
+                        list.Add(carac);
+                        list.Add(imgID);
+                        list.Add(pdfID);
+                    } 
                     database.openconnection();
                     database.insert(query, list);
                     MessageBox.Show("product Added !!");
@@ -295,6 +327,18 @@ namespace WindowsFormsApp1
                     axAcroPDF1.LoadFile("DOESNTEXIST.pdf");
                     axAcroPDF1.src = null;
                     listCategories.SelectedIndex = -1;
+                    void ClearTextBoxes(Control parent)
+                    {
+                        foreach (Control child in parent.Controls)
+                        {
+                            TextBox textBox = child as TextBox;
+                            if (textBox == null)
+                                ClearTextBoxes(child);
+                            else
+                                textBox.Text = string.Empty;
+                        }
+                    }
+                    ClearTextBoxes(this);
                 }
 
             }
@@ -307,18 +351,8 @@ namespace WindowsFormsApp1
                 database.closeconnecion();
                 list.Clear();
                 listparam.Clear();
-                void ClearTextBoxes(Control parent)
-                {
-                    foreach (Control child in parent.Controls)
-                    {
-                        TextBox textBox = child as TextBox;
-                        if (textBox == null)
-                            ClearTextBoxes(child);
-                        else
-                            textBox.Text = string.Empty;
-                    }
-                }
-                ClearTextBoxes(this);
+                //DT.Clear();
+                //dataGridView1.DataSource = DT;
                 cantChooseImgFile = false;
                 cantChoosePdfFile = false;
                 if (dataGridView1.Rows.Count > 0)
@@ -372,17 +406,51 @@ namespace WindowsFormsApp1
 
             if (pdfFileIsChoosen)
             {
-                //update pdf
-                DeleteFiles(pdfName, true);
-                query = "UPDATE [dbo].[Pdfs] SET [Name] = '" + Path.GetFileName(pdffileName) + "',[Path] = '" + pdffileSavePath + "' WHERE Pdfs.FileId = @1 ";
-                list.Clear();
-                list.Add(pdfID);
-                database.openconnection();
-                database.insert(query, list);
-                database.closeconnecion();
-                MessageBox.Show("pdf updated !");
-                pdfEXIST = true;
-                pdfFileIsChoosen = false;
+               //noPDF
+                if (pdfID !=0 )
+                {
+                    //update pdf
+                    DeleteFiles(pdfName, true);
+                    query = "UPDATE [dbo].[Pdfs] SET [Name] = '" + Path.GetFileName(pdffileName) + "',[Path] = '" + pdffileSavePath + "' WHERE Pdfs.FileId = @1 ";
+                    list.Clear();
+                    list.Add(pdfID);
+                    database.openconnection();
+                    database.insert(query, list);
+                    database.closeconnecion();
+                    MessageBox.Show("pdf updated !");
+                    pdfEXIST = true;
+                    pdfFileIsChoosen = false;
+                }
+                else
+                {
+                    //insert pdf
+                    query = "INSERT INTO [dbo].[Pdfs] ([Name],[Path]) VALUES (@1,@2)";
+                    list.Clear();
+                    list.Add(Path.GetFileName(pdffileName));
+                    list.Add(pdffileSavePath);
+                    database.openconnection();
+                    database.insert(query, list);
+                    MessageBox.Show("pdf Added !!");
+                    database.closeconnecion();
+                    //noPDF = false;
+
+                    //get pdf id
+                    query = "SELECT MAX(FileId) as 'pdfID' FROM Pdfs";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+
+                        conn.Open();
+                        pdfID = Convert.ToInt32(cmd.ExecuteScalar());
+                        conn.Close();
+                    }
+                    query = " UPDATE [dbo].[Produits] SET fiche_techniques = '"+pdfID+"' WHERE Produits.ID_Produit = @1";
+                    list.Clear();
+                    list.Add(idPro);
+                    database.openconnection();
+                    database.update(query, list);
+                    database.closeconnecion();
+                }
+               
             }            
             
             // update product
@@ -646,10 +714,7 @@ namespace WindowsFormsApp1
             //    }
 
             //}
-            if (dataGridView1.Rows.Count>0)
-            {
-                DeleteFiles(dataGridView1.Rows[0].Cells[0].Value.ToString(), false);
-            }
+           
             
             DT.Clear();
             dataGridView1.DataSource = DT;
@@ -671,7 +736,12 @@ namespace WindowsFormsApp1
                 cantChooseImgFile = false;
                 commingFromUpdateBtn = false;
             }
-            
+
+            if (dataGridView1.Rows.Count > 0)
+            {
+                DeleteFiles(dataGridView1.Rows[0].Cells[0].Value.ToString(), false);
+            }
+
         }
 
         private void Button3_Click(object sender, EventArgs e)

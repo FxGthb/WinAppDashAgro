@@ -17,7 +17,6 @@ namespace WindowsFormsApp1
     {
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["CS"].ConnectionString);
         private Database database;
-        byte[] binaryData;
         private string query = null;
         private int prodID;
         private string prodName;
@@ -86,6 +85,7 @@ namespace WindowsFormsApp1
 
         private void getProducts()
         {
+            
             SqlCommand cmd = con.CreateCommand();
             SqlDataAdapter DA = new SqlDataAdapter(cmd);
             DataTable DT = new DataTable();
@@ -103,7 +103,7 @@ namespace WindowsFormsApp1
                           " FROM [Produits] as p" +
                         " join Categories as c on p.ID_Categorie = c.ID_Categorie" +
                         " join Images as i on p.img_produit = i.FileId" +
-                        " join Pdfs as PDF on p.fiche_techniques = PDF.FileId";
+                        " left join Pdfs as PDF on p.fiche_techniques = PDF.FileId";
             // SqlCommand cmd = con.CreateCommand();
             cmd.CommandText = query;
             DA = new SqlDataAdapter(cmd);
@@ -113,10 +113,18 @@ namespace WindowsFormsApp1
             //database.closeconnecion();
             //database.openconnection();
             //drvProduits.DataSource = database.getData(query, "Produits").Tables["Produits"];
-            drvProduits.Columns[9].Visible = false;
-            drvProduits.Columns[10].Visible = false;
-            drvProduits.Columns[0].Visible = false;
-            drvProduits.Rows[0].Selected = true;
+            if (drvProduits.Rows.Count > 0)
+            {
+                drvProduits.Columns[9].Visible = false;
+                drvProduits.Columns[10].Visible = false;
+                drvProduits.Columns[0].Visible = false;
+                drvProduits.Rows[0].Selected = true;
+            }
+            else
+            {
+                MessageBox.Show("Vous n'avez aucun produit dans la liste !");
+            }
+            
         }
 
         private void drvProduits_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -146,62 +154,18 @@ namespace WindowsFormsApp1
         private void drvProduits_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
-        }
-
-        
+        }        
 
         private void button4_Click(object sender, EventArgs e)
         {
             //Produit Form_Prod = new Produit();
             formProd.Show();
             this.Hide();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            //string prodName = drvProduits
-            
-            //    try
-            //    {
-            //        DialogResult result = MessageBox.Show("Do you really want to delete the product \"" + textBox1.Text + "\"?", "Confirm product deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            //        if (result == DialogResult.Yes)
-            //        {
-            //            query = "DELETE FROM `films`.`film` WHERE idfilm=@1";
-            //            listobjects.Clear();
-            //            listobjects.Add(idfilm);
-            //            db.OpenConnection();
-            //            db.delete(query, listobjects);
-            //            db.CloseConnection();
-            //            MessageBox.Show("deleted with success !");
-            //            //refill the data grid view
-            //            updatefilms_Load(sender, e);
-            //            button_new_Click(sender, e);
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show("Delete was not done.\n"+ex.Message);
-            //    }
-            //    finally
-            //    {
-            //        con.Close();
-            //    }
-            
-            
-        }
+        }        
 
         private void listCategories_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //    SqlCommand cmd = con.CreateCommand();
-            //    cmd.CommandText = "Select Libelle,Categorie.Nom_Categorie,Emballage,PH,Description_Produit,Title_image,Title_pdf from Produit join Categorie on Produit.ID_Categorie = Categorie.ID_Categorie where Categorie.ID_Categorie ="+listCategories.SelectedValue;
-            //    if (con.State == ConnectionState.Closed)
-            //        con.Open();
-            //    SqlDataAdapter DA = new SqlDataAdapter(cmd);
-            //    DataTable DT = new DataTable();
-            //    DA.Fill(DT);
-            //    drvProduits.DataSource = DT;
             facoryMethod("Nom_Categorie", listCategories.Text);
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -233,13 +197,6 @@ namespace WindowsFormsApp1
 
         private void Button3_Click_1(object sender, EventArgs e)
         {
-            //query = "DELETE FROM [dbo].[Produit] WHERE Produit.ID_Produit =@1";
-            //listobjects.Clear();
-            //listobjects.Add(prodID);
-            //database.openconnection();
-            //database.delete(query, listobjects);
-            //database.closeconnecion();
-            //MessageBox.Show("deleted with success !");
             prodID = int.Parse(drvProduits.CurrentRow.Cells[0].Value.ToString());
             prodName = drvProduits.CurrentRow.Cells[2].Value.ToString();
             DialogResult result = MessageBox.Show("ete vous sur de supprimer ce produit : \"" + prodName + "\"?", "Confirm product deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -259,16 +216,7 @@ namespace WindowsFormsApp1
                 getProducts();
             }
         }
-
-        private void DrvProduits_SelectionChanged(object sender, EventArgs e)
-        {
-            //DialogResult result = MessageBox.Show("Do you really want to delete the film \"" + prodName + "\"?", "Confirm product deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            //if (result == DialogResult.Yes)
-            //{
-            //prodID = int.Parse(drvProduits.CurrentRow.Cells[0].Value.ToString());
-            //prodName = drvProduits.CurrentRow.Cells[2].Value.ToString();
-            //}
-        }
+        
 
         private void Button4_Click_1(object sender, EventArgs e)
         {            
@@ -278,6 +226,8 @@ namespace WindowsFormsApp1
 
         private void Button2_Click_1(object sender, EventArgs e)
         {
+            int pdfID=0;
+            string pdfName;
             int prodID = int.Parse(drvProduits.CurrentRow.Cells[0].Value.ToString());
             string categName = drvProduits.CurrentRow.Cells[1].Value.ToString();
             string prodName = drvProduits.CurrentRow.Cells[2].Value.ToString();
@@ -285,10 +235,17 @@ namespace WindowsFormsApp1
             string prodPH = drvProduits.CurrentRow.Cells[4].Value.ToString();
             string prodDesc = drvProduits.CurrentRow.Cells[5].Value.ToString();
             string prodCart = drvProduits.CurrentRow.Cells[6].Value.ToString();
-            string imageName = drvProduits.CurrentRow.Cells[7].Value.ToString();
-            string pdfName = drvProduits.CurrentRow.Cells[8].Value.ToString();
+            string imageName = drvProduits.CurrentRow.Cells[7].Value.ToString();            
             int imageID =int.Parse( drvProduits.CurrentRow.Cells[10].Value.ToString());
-            int pdfID = int.Parse(drvProduits.CurrentRow.Cells[9].Value.ToString());
+
+            if (drvProduits.CurrentRow.Cells[8].Value.ToString().Equals(""))
+                pdfName = "DOESNTEXIST.pdf";
+            else
+            {
+                pdfID = int.Parse(drvProduits.CurrentRow.Cells[9].Value.ToString());
+                pdfName = drvProduits.CurrentRow.Cells[8].Value.ToString();
+            }
+
             listofcontrols.Clear();
             listofcontrols.Add(prodID);
             listofcontrols.Add(categName);
@@ -300,13 +257,7 @@ namespace WindowsFormsApp1
             listofcontrols.Add(imageID);
             listofcontrols.Add(pdfID);
             listofcontrols.Add(imageName);
-            listofcontrols.Add(pdfName);
-            //listofcontrols.Add(ImageArray);
-            //listofcontrols.Add(prodImagaTitle);
-            //foreach (var item in ImageArray)
-            //{
-            //    MessageBox.Show(item.ToString());
-            //}
+            listofcontrols.Add(pdfName);            
             formProd.Show();
             formProd.UpdateProd(listofcontrols);           
 
@@ -333,7 +284,7 @@ namespace WindowsFormsApp1
                       " FROM[agroV2].[dbo].[Produits] as p" +
                     " join dbo.Categories as c on p.ID_Categorie = c.ID_Categorie" +
                     " join dbo.Images as i on p.img_produit = i.FileId" +
-                    " join dbo.Pdfs as PDF on p.fiche_techniques = PDF.FileId";
+                    " left join dbo.Pdfs as PDF on p.fiche_techniques = PDF.FileId";
             database.closeconnecion();
             database.openconnection();
             DT = dt = database.getData(query, "Produits").Tables["Produits"];
