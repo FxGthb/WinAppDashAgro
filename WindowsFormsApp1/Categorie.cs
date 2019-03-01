@@ -37,7 +37,7 @@ namespace WindowsFormsApp1
 
         private void Categorie_Load(object sender, EventArgs e)
         {
-            button5.Enabled = true;
+            button5.Enabled = false;
             //button3.Enabled = false;
             imgFileIsChoosen = false;
             cantChooseImgFile = false;
@@ -143,7 +143,7 @@ namespace WindowsFormsApp1
                         cantChooseImgFile = true;
                         button2.Enabled = true;
                         // this.BindDataGridView();
-                        button5.Enabled = false;
+                        button5.Enabled = true;
                     }
                     else
                     {
@@ -232,7 +232,6 @@ namespace WindowsFormsApp1
                         getProducts();
                         cantChooseImgFile = false;
                     }
-
                 }
             
 
@@ -273,12 +272,7 @@ namespace WindowsFormsApp1
                 MessageBox.Show("L'image est obligatoire !");
                 //imgEXIST = false;
             }
-
-            if (imgFileIsChoosen)
-            {
-                
-                //update image
-                
+                //update image             
                 
                 query = "UPDATE [dbo].[Categories] SET [Name] = '"+Path.GetFileName(fileName)+"',[Desc] = '" + text_CatDesc.Text.Trim() + "',[Path] = '" + fileSavePath + "' , [Cat_Name] = '"+ text_CatName.Text.Trim()+"'WHERE dbo.Categories.FileId = @1";
                 list.Clear();
@@ -292,39 +286,12 @@ namespace WindowsFormsApp1
                 imgEXIST = true;
                 imgFileIsChoosen = false;
                 getProducts();
-            }
+            
         }
 
         private void DataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            DT.Clear();
-            DT.Dispose();
-            dataGridView1.DataSource = DT;
-            button1.Enabled = true;
-            button3.Enabled = true;
-            imageID = int.Parse(dataGridView2.CurrentRow.Cells[0].Value.ToString());
-            imageName = dataGridView2.CurrentRow.Cells[1].Value.ToString();
-            text_CatDesc.Text = dataGridView2.CurrentRow.Cells[2].Value.ToString();
-            //Path.GetFileName(fileName) = 
-            text_CatName.Text = dataGridView2.CurrentRow.Cells[4].Value.ToString();
-            //get image 
-            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT [Path] FROM [dbo].[Categories] WHERE FileId = '" + imageID+"'", conn))
-            {
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-
-                //Add a new Byte[] Column.
-                dt.Columns.Add("Data", Type.GetType("System.Byte[]"));
-
-                //Convert all Images to Byte[] and copy to DataTable.
-                foreach (DataRow row in dt.Rows)
-                {
-                    row["Data"] = File.ReadAllBytes(row["Path"].ToString());
-                }
-
-                dataGridView1.DataSource = dt;
-                dataGridView1.Rows[0].Cells[0].Value = dt.Rows[0][1];
-            }
+            
         }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -349,6 +316,34 @@ namespace WindowsFormsApp1
             button1.Enabled = false;
             button2.Enabled = true;
             button3.Enabled = true;
+        }
+
+        private void DataGridView2_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataTable dt = new DataTable();
+            dt.Clear();
+            button1.Enabled = true;
+            button3.Enabled = true;
+            imageID = int.Parse(dataGridView2.CurrentRow.Cells[0].Value.ToString());
+            imageName = dataGridView2.CurrentRow.Cells[1].Value.ToString();
+            text_CatDesc.Text = dataGridView2.CurrentRow.Cells[2].Value.ToString();
+            //Path.GetFileName(fileName) = 
+            text_CatName.Text = dataGridView2.CurrentRow.Cells[4].Value.ToString();
+            //get image 
+            using (SqlDataAdapter sda = new SqlDataAdapter("SELECT [Path] FROM [dbo].[Categories] WHERE FileId = '" + imageID + "'", conn))
+            {
+                sda.Fill(dt);
+                //Add a new Byte[] Column.
+                dt.Columns.Add("Data", Type.GetType("System.Byte[]"));
+                //Convert all Images to Byte[] and copy to DataTable.
+                foreach (DataRow row in dt.Rows)
+                {
+                    row["Data"] = File.ReadAllBytes(row["Path"].ToString());
+                }
+                dataGridView1.DataSource = dt;
+                dataGridView1.Rows[0].Cells[0].Value = dt.Rows[0][1];
+
+            }
         }
     }
 }
