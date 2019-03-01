@@ -41,8 +41,7 @@ namespace WindowsFormsApp1
             drvProduits.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             
             try
-            {
-                
+            {               
 
                 listCategories.DisplayMember = "Nom_Categorie";
                 listCategories.ValueMember = "ID_Categorie";
